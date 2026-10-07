@@ -1,3 +1,71 @@
+# ==============================================================================
+# AI X-Ray Project .gitignore
+# ==============================================================================
+
+# Python Environments
 .venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python Bytecode and Caches
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js & Next.js
+node_modules/
+.next/
+out/
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment and Secrets (Never commit secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# Machine Learning Artifacts & Heavy Data
+# (Keep documentation and directory structure tracked, ignore binary model weights and heavy data)
+ml/saved_models/*.pth
+ml/saved_models/*.pt
+ml/saved_models/*.bin
+ml/saved_models/*.onnx
+ml/saved_models/*.ckpt
+!ml/saved_models/README.md
+!ml/saved_models/.gitkeep
+
+# Datasets & Archive Files
+ml/datasets/raw/
+ml/datasets/processed/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+!ml/datasets/README.md
+!ml/datasets/.gitkeep
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
