@@ -1,0 +1,53 @@
+{
+  "datasets": {
+    "fracatlas": {
+      "dataset_id": "fracatlas",
+      "name": "FracAtlas",
+      "status": "available",
+      "total_images": 4083,
+      "unique_patients": "N/A",
+      "unique_studies": "N/A",
+      "class_distribution": {
+        "normal": 462,
+        "abnormal": 38
+      },
+      "body_part_distribution": {
+        "leg": 315,
+        "hand": 113,
+        "mixed": 31,
+        "shoulder": 8,
+        "hip": 33
+      },
+      "image_modes": {
+        "RGB": 225,
+        "L": 275
+      },
+      "dimension_range": {
+        "min": [
+          373,
+          373
+        ],
+        "max": [
+          2880,
+          2880
+        ]
+      },
+      "clean_manifest": true
+    },
+    "mura": {
+      "dataset_id": "mura",
+      "status": "not_downloaded",
+      "message": "Dataset currently in 'not_downloaded' state."
+    },
+    "chestxray14": {
+      "dataset_id": "chestxray14",
+      "status": "not_downloaded",
+      "message": "Dataset currently in 'not_downloaded' state."
+    },
+    "vindr_spine": {
+      "dataset_id": "vindr_spine",
+      "status": "restricted",
+      "message": "Dataset currently in 'restricted' state."
+    }
+  }
+}
