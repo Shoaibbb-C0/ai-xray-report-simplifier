@@ -35,12 +35,16 @@ The AI X-Ray Project is structured as a decoupled, multi-tier system engineered 
 - Validates payload schemas, manages request lifecycle, coordinates error states, and dispatches requests to the ML service layer.
 
 ### 3. Machine Learning Tier (`ml/`)
-- Engineered strictly in **PyTorch**.
+- Engineered strictly in **PyTorch** running fully local without third-party generative/vision APIs.
 - Modularized into:
-  - `datasets/`: Dataset manifest management and loaders.
-  - `preprocessing/`: Standardized image pipeline (letterboxing, grayscale conversion, tensor normalization).
-  - `training/`: Native training loops and loss formulations.
-  - `evaluation/`: Clinical benchmark evaluation scripts (ROC-AUC, specificity, sensitivity).
-  - `inference/`: Forward-pass runtime routines.
-  - `saved_models/`: In-house model weights (`.pth` files, git-ignored).
+  - `datasets/`: Dataset manifest management and loaders. Includes `splits/validator/` and `splits/body_part/` deterministic, leakage-free splits.
+  - `models/`: Custom PyTorch architectures:
+    - `XRayValidatorCNN` (101,553 params): Binary radiograph vs non-radiograph classifier with uncertainty rejection band (`p < 0.35` -> NON_XRAY, `0.35 <= p <= 0.65` -> UNCERTAIN, `p > 0.65` -> X_RAY).
+    - `BodyPartClassifierCNN` (105,908 params): 4-class anatomical classifier (Hand, Leg, Hip, Shoulder) with weighted CrossEntropyLoss and confidence-based UNKNOWN rejection (`max_prob < 0.60` -> UNKNOWN).
+  - `preprocessing/`: Standardized image pipeline (letterboxing, grayscale conversion, tensor normalization to `[1, 224, 224]`).
+  - `training/`: Native training loops, early stopping, and metric calculation (`engine.py`, `train_validator.py`, `train_body_part.py`).
+  - `evaluation/`: Clinical benchmark evaluation scripts (`evaluate_validator.py`, `evaluate_body_part.py`).
+  - `inference/`: `Stage3InferencePipeline` and `predict_stage3.py` CLI routing engine.
+  - `saved_models/`: In-house model weights (`best_validator.pt`, `best_body_part.pt`, git-ignored).
   - `learning/`: Preserved initial experimental code.
+

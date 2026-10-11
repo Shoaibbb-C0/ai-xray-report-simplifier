@@ -153,7 +153,8 @@ pytest -v
 | Stage | Description | Status |
 | :--- | :--- | :--- |
 | **Stage 1** | **Repository Foundation & Starter Shell** | **Completed** |
-| **Stage 2** | Public Dataset Curation & Preprocessing Pipeline | Planned |
-| **Stage 3** | In-House PyTorch Model Training & Evaluation | Planned |
-| **Stage 4** | Service Integration, UI Map & Smart Analysis Flows | Planned |
-| **Stage 5** | End-to-End Verification & Patient Safety Review | Planned |
+| **Stage 2** | **Public Dataset Curation & Preprocessing Pipeline** | **Completed** |
+| **Stage 3** | **X-Ray Validator & Body-Part Classifier PyTorch Models** | **Completed** |
+| **Stage 4** | Pathology Screening Networks & Smart Analysis Integration | Planned |
+| **Stage 5** | Interactive Anatomical Map & Patient Support Features | Planned |
+

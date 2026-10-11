@@ -43,11 +43,18 @@ lerna-debug.log*
 
 # Machine Learning Artifacts & Heavy Data
 # (Keep documentation and directory structure tracked, ignore binary model weights and heavy data)
+ml/saved_models/**/*.pth
+ml/saved_models/**/*.pt
+ml/saved_models/**/*.bin
+ml/saved_models/**/*.onnx
+ml/saved_models/**/*.ckpt
 ml/saved_models/*.pth
 ml/saved_models/*.pt
 ml/saved_models/*.bin
 ml/saved_models/*.onnx
 ml/saved_models/*.ckpt
+!ml/saved_models/**/README.md
+!ml/saved_models/**/.gitkeep
 !ml/saved_models/README.md
 !ml/saved_models/.gitkeep
 

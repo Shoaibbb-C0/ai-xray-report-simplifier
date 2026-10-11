@@ -1,0 +1,52 @@
+{
+  "model": "XRayValidatorCNN",
+  "checkpoint": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\saved_models\\stage3\\validator\\best_validator.pt",
+  "uncertainty_policy": {
+    "lower_bound": 0.35,
+    "upper_bound": 0.65,
+    "uncertain_samples_test": 20,
+    "uncertain_percentage_test": 1.72,
+    "decision_rule": "p < 0.35: NON_XRAY | 0.35 <= p <= 0.65: UNCERTAIN | p > 0.65: X_RAY"
+  },
+  "canonical_test_metrics": {
+    "accuracy": 0.9871,
+    "balanced_accuracy": 0.9864,
+    "precision": 0.9761,
+    "recall_sensitivity": 1.0,
+    "specificity": 0.9727,
+    "f1": 0.9879,
+    "roc_auc": 0.9988,
+    "pr_auc": 0.9987,
+    "true_positives": 613,
+    "true_negatives": 535,
+    "false_positives": 15,
+    "false_negatives": 0,
+    "confusion_matrix": [
+      [
+        535,
+        15
+      ],
+      [
+        0,
+        613
+      ]
+    ],
+    "threshold": 0.5,
+    "total_samples": 1163
+  },
+  "breakdown": {
+    "xray_radiographs_recall": 1.0,
+    "imagenet_natural_specificity": 0.98,
+    "retinamnist_medical_specificity": 0.97
+  },
+  "ood_dermoscopy_test": {
+    "sample_count": 500,
+    "correct_non_xray_rejections": 0,
+    "false_alarms": 500,
+    "raw_binary_specificity": 0.0,
+    "in_uncertainty_band_count": 500,
+    "uncertainty_rejection_percentage": 100.0,
+    "median_ood_probability": 0.6077,
+    "note": "Zero-shot skin lesions fall 100% within the designated UNCERTAIN band [0.35, 0.65], successfully preventing false-positive X-Ray acceptance."
+  }
+}

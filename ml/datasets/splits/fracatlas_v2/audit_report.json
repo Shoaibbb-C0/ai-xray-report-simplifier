@@ -1,0 +1,22 @@
+{
+  "dataset": "fracatlas",
+  "total_samples": 4083,
+  "exact_file_duplicate_groups": 12,
+  "exact_pixel_duplicate_groups": 79,
+  "exact_pixel_duplicate_samples": 163,
+  "perceptual_near_duplicate_clusters": 155,
+  "total_images_in_clusters": 361,
+  "reliable_patient_ids_in_raw_dataset": false,
+  "isolation_strategy": "cluster_grouped_deterministic_split",
+  "split_counts": {
+    "train": 2859,
+    "validation": 611,
+    "test": 613
+  },
+  "manifest_paths": {
+    "train": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\fracatlas_v2\\train.json",
+    "validation": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\fracatlas_v2\\validation.json",
+    "test": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\fracatlas_v2\\test.json"
+  },
+  "leakage_test_passed": true
+}

@@ -1,0 +1,84 @@
+{
+  "model": "BodyPartClassifierCNN",
+  "checkpoint": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\saved_models\\stage3\\body_part\\best_body_part.pt",
+  "target_classes": [
+    "hand",
+    "leg",
+    "hip",
+    "shoulder"
+  ],
+  "test_metrics": {
+    "accuracy": 0.8732,
+    "balanced_accuracy": 0.8048,
+    "macro_f1": 0.8334,
+    "weighted_f1": 0.8732,
+    "per_class": {
+      "HAND": {
+        "precision": 0.8221,
+        "recall": 0.8906,
+        "f1": 0.855,
+        "support": 192
+      },
+      "LEG": {
+        "precision": 0.9073,
+        "recall": 0.8793,
+        "f1": 0.8931,
+        "support": 323
+      },
+      "HIP": {
+        "precision": 0.8421,
+        "recall": 0.7619,
+        "f1": 0.8,
+        "support": 21
+      },
+      "SHOULDER": {
+        "precision": 0.9167,
+        "recall": 0.6875,
+        "f1": 0.7857,
+        "support": 16
+      }
+    },
+    "confusion_matrix": [
+      [
+        171,
+        20,
+        1,
+        0
+      ],
+      [
+        37,
+        284,
+        1,
+        1
+      ],
+      [
+        0,
+        5,
+        16,
+        0
+      ],
+      [
+        0,
+        4,
+        1,
+        11
+      ]
+    ],
+    "total_samples": 552
+  },
+  "unknown_rejection_policy": {
+    "selected_confidence_threshold": 0.6,
+    "decision_rule": "max_prob < 0.6 -> UNKNOWN / REJECT",
+    "ambiguous_mixed_samples_tested": 398,
+    "rejected_as_unknown_count": 40,
+    "rejection_percentage": 10.05,
+    "threshold_analysis": {
+      "rejection_rate_thresh_0.5": 0.0151,
+      "rejection_rate_thresh_0.6": 0.1005,
+      "rejection_rate_thresh_0.7": 0.2337,
+      "rejection_rate_thresh_0.8": 0.3518
+    },
+    "median_confidence_mixed": 0.8766,
+    "mean_confidence_mixed": 0.8272
+  }
+}

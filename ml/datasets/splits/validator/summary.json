@@ -1,0 +1,24 @@
+{
+  "dataset": "xray_validator",
+  "train_count": 4639,
+  "train_pos": 2859,
+  "train_neg": 1780,
+  "val_count": 881,
+  "val_pos": 611,
+  "val_neg": 270,
+  "test_count": 1163,
+  "test_pos": 613,
+  "test_neg": 550,
+  "test_neg_per_source": {
+    "imagenet_natural": 150,
+    "retinamnist_ophthalmology": 400
+  },
+  "ood_count": 500,
+  "ood_source": "dermamnist_dermatology",
+  "manifests": {
+    "train": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\validator\\train.json",
+    "validation": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\validator\\validation.json",
+    "test": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\validator\\test.json",
+    "ood_test": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\validator\\ood_test.json"
+  }
+}

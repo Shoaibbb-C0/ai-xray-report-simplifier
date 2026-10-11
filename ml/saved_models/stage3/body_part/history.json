@@ -1,0 +1,68 @@
+{
+  "best_epoch": 5,
+  "best_score": 0.8296,
+  "primary_metric": "macro_f1",
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.0356,
+      "val_loss": 1.2536,
+      "lr": 0.001,
+      "macro_f1": 0.3644,
+      "val_accuracy": 0.6032,
+      "val_macro_f1": 0.3644,
+      "val_weighted_f1": 0.5774
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.5575,
+      "val_loss": 0.5965,
+      "lr": 0.001,
+      "macro_f1": 0.7221,
+      "val_accuracy": 0.79,
+      "val_macro_f1": 0.7221,
+      "val_weighted_f1": 0.7785
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.4721,
+      "val_loss": 1.2737,
+      "lr": 0.001,
+      "macro_f1": 0.2535,
+      "val_accuracy": 0.2438,
+      "val_macro_f1": 0.2535,
+      "val_weighted_f1": 0.2814
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.4381,
+      "val_loss": 0.7635,
+      "lr": 0.001,
+      "macro_f1": 0.441,
+      "val_accuracy": 0.516,
+      "val_macro_f1": 0.441,
+      "val_weighted_f1": 0.5868
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.3564,
+      "val_loss": 0.5261,
+      "lr": 0.001,
+      "macro_f1": 0.8296,
+      "val_accuracy": 0.8505,
+      "val_macro_f1": 0.8296,
+      "val_weighted_f1": 0.8504
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4126,
+      "val_loss": 0.5255,
+      "lr": 0.001,
+      "macro_f1": 0.7416,
+      "val_accuracy": 0.8167,
+      "val_macro_f1": 0.7416,
+      "val_weighted_f1": 0.8143
+    }
+  ],
+  "checkpoint_path": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\saved_models\\stage3\\body_part\\best_body_part.pt"
+}

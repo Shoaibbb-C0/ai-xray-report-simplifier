@@ -1,0 +1,52 @@
+{
+  "best_epoch": 1,
+  "best_score": 0.9881,
+  "primary_metric": "balanced_accuracy",
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.1809,
+      "val_loss": 0.0407,
+      "lr": 0.001,
+      "balanced_accuracy": 0.9881,
+      "val_accuracy": 0.9921,
+      "val_f1": 0.9943,
+      "val_sensitivity": 0.9984,
+      "val_specificity": 0.9778
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0404,
+      "val_loss": 1.4673,
+      "lr": 0.001,
+      "balanced_accuracy": 0.5931,
+      "val_accuracy": 0.437,
+      "val_f1": 0.3187,
+      "val_sensitivity": 0.1899,
+      "val_specificity": 0.9963
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.022,
+      "val_loss": 0.0735,
+      "lr": 0.001,
+      "balanced_accuracy": 0.9834,
+      "val_accuracy": 0.9784,
+      "val_f1": 0.9842,
+      "val_sensitivity": 0.9705,
+      "val_specificity": 0.9963
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0245,
+      "val_loss": 0.0197,
+      "lr": 0.001,
+      "balanced_accuracy": 0.9881,
+      "val_accuracy": 0.9921,
+      "val_f1": 0.9943,
+      "val_sensitivity": 0.9984,
+      "val_specificity": 0.9778
+    }
+  ],
+  "checkpoint_path": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\saved_models\\stage3\\validator\\best_validator.pt"
+}

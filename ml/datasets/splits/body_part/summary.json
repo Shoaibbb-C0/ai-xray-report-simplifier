@@ -1,0 +1,41 @@
+{
+  "dataset": "body_part_classifier",
+  "target_classes": [
+    "hand",
+    "leg",
+    "hip",
+    "shoulder"
+  ],
+  "class_counts_train": {
+    "leg": 1486,
+    "hand": 889,
+    "shoulder": 68,
+    "hip": 128
+  },
+  "class_counts_val": {
+    "leg": 315,
+    "hand": 200,
+    "hip": 30,
+    "shoulder": 17
+  },
+  "class_counts_test": {
+    "leg": 323,
+    "hand": 192,
+    "shoulder": 16,
+    "hip": 21
+  },
+  "train_class_weights": {
+    "hand": 0.723,
+    "leg": 0.4325,
+    "hip": 5.0215,
+    "shoulder": 9.4522
+  },
+  "ambiguous_mixed_count": 398,
+  "manifests": {
+    "train": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\body_part\\train.json",
+    "validation": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\body_part\\validation.json",
+    "test": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\body_part\\test.json",
+    "ambiguous_mixed": "C:\\Users\\shaik\\OneDrive\\Desktop\\Shoaibbb\\College\\Mini Projects\\ai-xray-project\\ml\\datasets\\splits\\body_part\\ambiguous_mixed_test.json"
+  },
+  "leakage_test_passed": true
+}
