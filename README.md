@@ -157,7 +157,7 @@ pytest -v
 | **Stage 3** | **X-Ray Validator & Body-Part Classifier PyTorch Models** | **Completed** |
 | **Stage 4** | **Abnormality Detection & Specialized Model (Fracture Classifier)** | **Completed (71% Target)** |
 | **Stage 5** | **Visual Explanation Engine & Patient-Safe Interface** | **Completed (79% Target)** |
-| **Stage 6** | **Supabase + My X-Ray Map + Patient History** | Implemented locally; live Supabase verification pending |
+| **Stage 6** | **Supabase + My X-Ray Map + Patient History** | Live database/API checks passed; final email/mobile acceptance pending |
 
 Stage 6 adds email/password accounts, protected `/map` and `/history` routes,
 private storage policies and reusable Stage 5 JSON persistence contracts.

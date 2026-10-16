@@ -70,11 +70,12 @@
 - [x] Add accessible original SVG map, coarse region filters, counts and scan details.
 - [x] Preserve Stage 5 structured explanations and strip transient attention media for storage.
 - [x] Add contract, repository, auth, rendering and embedded PostgreSQL isolation tests.
-- [ ] Apply migration to the selected Supabase project (connector permission currently denied).
-- [ ] Verify two real users through Auth, PostgREST and Storage APIs; run live advisors.
-- [ ] Complete authenticated mobile/browser acceptance.
+- [x] Apply migrations to the selected Supabase project.
+- [x] Verify two disposable confirmed users through Auth, PostgREST and Storage APIs; run live advisors.
+- [ ] Complete real-email verification delivery and authenticated mobile viewport acceptance.
 
-Overall verified progress remains 79%; 87% is the target after live Stage 6
-acceptance. See [setup and verification report](stage6-patient-history.md).
+Overall verified progress remains 79%; 87% is the target after the remaining
+email-delivery and mobile viewport acceptance checks. Live database/API
+isolation and authenticated desktop browser checks have passed. See [setup and verification report](stage6-patient-history.md).
 
 
