@@ -1,3 +1,6 @@
+import Link from 'next/link';
+import { copy } from '@/lib/patient-copy';
+
 export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col justify-between px-6 py-12 md:px-16 lg:px-24 max-w-6xl mx-auto">
@@ -10,9 +13,15 @@ export default function HomePage() {
           </span>
         </div>
         <div className="text-xs font-mono text-slate-400 px-3 py-1 rounded-full border border-slate-800 bg-slate-900/50">
-          Stage 1 Foundation Active
+          Stage 6 Patient History
         </div>
       </header>
+      <nav aria-label="Patient accounts" className="flex flex-wrap gap-6 pt-6 text-teal-300 underline underline-offset-4">
+        <Link href="/login">{copy.login}</Link>
+        <Link href="/signup">{copy.signup}</Link>
+        <Link href="/map">{copy.map}</Link>
+        <Link href="/history">{copy.history}</Link>
+      </nav>
 
       {/* Hero section */}
       <section className="py-20 md:py-28 max-w-3xl">

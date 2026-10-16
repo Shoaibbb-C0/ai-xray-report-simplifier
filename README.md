@@ -109,7 +109,7 @@ ai-xray-project/
 
 ### Prerequisites
 - Python 3.10+ (Current environment: Python 3.14)
-- Node.js 18+ (Current environment: Node.js 24)
+- Node.js 22+ (Current environment: Node.js 24; required by the Supabase SDK)
 
 ### Backend Setup
 ```powershell
@@ -157,7 +157,15 @@ pytest -v
 | **Stage 3** | **X-Ray Validator & Body-Part Classifier PyTorch Models** | **Completed** |
 | **Stage 4** | **Abnormality Detection & Specialized Model (Fracture Classifier)** | **Completed (71% Target)** |
 | **Stage 5** | **Visual Explanation Engine & Patient-Safe Interface** | **Completed (79% Target)** |
-| **Stage 6** | **Database & Persistence Layer (Supabase)** | Planned |
+| **Stage 6** | **Supabase + My X-Ray Map + Patient History** | Implemented locally; live Supabase verification pending |
+
+Stage 6 adds email/password accounts, protected `/map` and `/history` routes,
+private storage policies and reusable Stage 5 JSON persistence contracts.
+See [Stage 6 setup, schema, security and test report](docs/stage6-patient-history.md).
+Configure the public Supabase URL/key in ignored `frontend/.env.local`, apply
+the migration and configure the Auth callback before using patient accounts.
+No upload-analysis-persistence flow is enabled yet. Run frontend checks with
+`npm test` and `npm run build` from `frontend/`.
 
 
 

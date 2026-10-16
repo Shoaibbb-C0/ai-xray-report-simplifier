@@ -1,5 +1,14 @@
 # System Architecture
 
+## Stage 6 extension
+
+Next.js now uses Supabase Auth cookies and authenticated PostgREST reads for
+patient history. Middleware and server pages verify the user; database RLS
+enforces patient ownership. Profiles, scans and JSONB analysis results use
+UUID foreign keys, with a composite scan/owner result relationship. Private
+storage is prepared for Stage 7. FastAPI/PyTorch inference remains unchanged.
+See [Stage 6 details and integration status](stage6-patient-history.md).
+
 ## Overview
 The AI X-Ray Project is structured as a decoupled, multi-tier system engineered for patient-centric radiograph education and screening support:
 

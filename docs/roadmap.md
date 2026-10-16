@@ -64,9 +64,17 @@
 - [x] Build development preview route (`/dev/explanations`) with 7 deterministic software fixtures.
 - [x] All 57 automated tests passing; frontend production build verified.
 
-### Stage 6: Database & Persistence Layer (Planned — Next Stage)
-- Introduce Supabase backend for secure patient history and scan metadata storage.
-- Implement structured database schema with row-level security (RLS).
-- Store serializable Stage 5 explanation results alongside scan records.
+### Stage 6: Supabase + My X-Ray Map + Patient History (Local implementation ready)
+- [x] Add reproducible patient schema, foreign keys, indexes, RLS and private storage policies.
+- [x] Implement email/password auth, persistent sessions and protected patient routes.
+- [x] Add accessible original SVG map, coarse region filters, counts and scan details.
+- [x] Preserve Stage 5 structured explanations and strip transient attention media for storage.
+- [x] Add contract, repository, auth, rendering and embedded PostgreSQL isolation tests.
+- [ ] Apply migration to the selected Supabase project (connector permission currently denied).
+- [ ] Verify two real users through Auth, PostgREST and Storage APIs; run live advisors.
+- [ ] Complete authenticated mobile/browser acceptance.
+
+Overall verified progress remains 79%; 87% is the target after live Stage 6
+acceptance. See [setup and verification report](stage6-patient-history.md).
 
 

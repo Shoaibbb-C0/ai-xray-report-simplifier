@@ -12,3 +12,29 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -0.01em;
 }
+
+.patient-shell { max-width: 1100px; margin: auto; padding: 24px 18px 60px; overflow-wrap: anywhere; }
+.patient-shell h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 700; margin: 24px 0 12px; }
+.patient-shell h2 { font-size: 1.15rem; font-weight: 600; }
+.patient-shell a { color: #5eead4; text-decoration: underline; text-underline-offset: 4px; }
+.patient-shell p { line-height: 1.7; }
+.patient-nav, .region-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.patient-nav { border-bottom: 1px solid #334155; padding-bottom: 20px; }
+.patient-shell button { min-height: 44px; padding: 10px 16px; border: 1px solid #64748b; border-radius: 10px; background: #16343c; }
+.patient-shell button[aria-pressed=true] { background: #0f766e; border-color: #99f6e4; }
+.patient-shell button:disabled { opacity: .5; cursor: wait; }
+.patient-shell :focus-visible { outline: 3px solid #fcd34d; outline-offset: 4px; }
+.patient-stack { display: grid; gap: 18px; margin-top: 24px; }
+.patient-panel { border: 1px solid #334155; border-radius: 16px; padding: 20px; background: #101a24; min-width: 0; }
+.map-history-grid { display: grid; grid-template-columns: minmax(240px, 360px) minmax(0,1fr); gap: 28px; margin-top: 24px; }
+.body-map svg { width: 100%; max-height: 610px; }
+.body-map figcaption { font-size: .85rem; color: #cbd5e1; line-height: 1.7; }
+.map-target { cursor: pointer; }
+.map-target:hover circle, .map-target:focus-visible circle { stroke: #fcd34d; stroke-width: 5; }
+.scan-placeholder { float: right; padding: 8px; border: 1px solid #475569; border-radius: 8px; font-size: 24px; }
+.metadata-grid { display: grid; grid-template-columns: minmax(100px,1fr) minmax(0,2fr); gap: 14px; }
+.metadata-grid dt { color: #94a3b8; }
+.auth-shell { max-width: 480px; }
+.auth-shell label { display: grid; gap: 8px; }
+.auth-shell input { width: 100%; min-height: 48px; padding: 10px; background: #111e2c; border: 1px solid #64748b; border-radius: 8px; }
+@media(max-width: 640px) { .map-history-grid { grid-template-columns: minmax(0,1fr); } .body-map { max-width: 340px; margin: auto; } .metadata-grid { grid-template-columns: 1fr; } }
