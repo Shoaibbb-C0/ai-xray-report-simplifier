@@ -60,7 +60,7 @@ class TrainingEngine:
             total_loss += loss.item() * bs
             n_samples += bs
 
-        if self.scheduler:
+        if self.scheduler and not isinstance(self.scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
             self.scheduler.step()
 
         avg_loss = total_loss / n_samples if n_samples > 0 else 0.0
@@ -157,11 +157,14 @@ class TrainingEngine:
                 "lr": train_res["lr"],
                 primary_metric: current_score,
                 "val_accuracy": val_res.get("accuracy"),
+                "val_balanced_accuracy": val_res.get("balanced_accuracy"),
             }
             if task_type == "binary":
                 epoch_record["val_f1"] = val_res.get("f1")
                 epoch_record["val_sensitivity"] = val_res.get("recall_sensitivity")
                 epoch_record["val_specificity"] = val_res.get("specificity")
+                epoch_record["val_roc_auc"] = val_res.get("roc_auc")
+                epoch_record["val_pr_auc"] = val_res.get("pr_auc")
             else:
                 epoch_record["val_macro_f1"] = val_res.get("macro_f1")
                 epoch_record["val_weighted_f1"] = val_res.get("weighted_f1")
@@ -171,6 +174,12 @@ class TrainingEngine:
                 f"Epoch {epoch:02d}/{epochs:02d} | Train Loss: {train_res['train_loss']:.4f} | "
                 f"Val Loss: {val_res['loss']:.4f} | Val {primary_metric}: {current_score:.4f}"
             )
+
+            if self.scheduler is not None:
+                if isinstance(self.scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
+                    self.scheduler.step(current_score)
+                else:
+                    self.scheduler.step()
 
             # Check improvement
             if current_score > best_score:

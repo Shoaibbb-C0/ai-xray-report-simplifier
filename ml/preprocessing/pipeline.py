@@ -46,7 +46,17 @@ class XRayPreprocessor:
         """Safely load and return a PIL Image."""
         if isinstance(image_input, Image.Image):
             return image_input
-        return Image.open(image_input)
+        path = Path(image_input)
+        if not path.exists():
+            parts = path.parts
+            if "raw" in parts:
+                raw_idx = parts.index("raw")
+                rel_parts = parts[raw_idx + 1 :]
+                from ml.datasets.registry import RAW_DATASETS_DIR
+                candidate = RAW_DATASETS_DIR.joinpath(*rel_parts)
+                if candidate.exists():
+                    return Image.open(candidate)
+        return Image.open(path)
 
     def preprocess(self, image_input: Union[str, Path, Image.Image]) -> torch.Tensor:
         """Transform an input radiograph into a normalized [1, H, W] PyTorch tensor."""

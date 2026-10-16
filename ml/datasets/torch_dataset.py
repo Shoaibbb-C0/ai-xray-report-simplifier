@@ -25,11 +25,16 @@ class NormalizedXRayDataset(Dataset):
         preprocessor: Optional[XRayPreprocessor] = None,
         task: str = "binary",
         multilabel_classes: Optional[List[str]] = None,
+        transform: Optional[Callable] = None,
+        cache_tensors: bool = False,
     ) -> None:
         self.samples = samples
         self.preprocessor = preprocessor or XRayPreprocessor()
         self.task = task
         self.multilabel_classes = multilabel_classes or []
+        self.transform = transform
+        self.cache_tensors = cache_tensors
+        self._cache: Dict[int, torch.Tensor] = {}
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -57,7 +62,14 @@ class NormalizedXRayDataset(Dataset):
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, Dict[str, Any]]:
         sample = self.samples[idx]
-        image_tensor = self.preprocessor(sample.image_path)
+        if self.cache_tensors:
+            if idx not in self._cache:
+                self._cache[idx] = self.preprocessor(sample.image_path)
+            raw_tensor = self._cache[idx]
+        else:
+            raw_tensor = self.preprocessor(sample.image_path)
+
+        image_tensor = self.transform(raw_tensor) if self.transform is not None else raw_tensor
         label_tensor = self._get_label(sample)
 
         metadata = {

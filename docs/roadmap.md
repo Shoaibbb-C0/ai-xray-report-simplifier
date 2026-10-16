@@ -42,12 +42,18 @@
 - [x] Export checkpoints to `ml/saved_models/stage3/` and verify checksums.
 - [x] Implement end-to-end `Stage3InferencePipeline` and `predict_stage3.py` CLI.
 
+### Stage 4: Abnormality Detection & Specialized Model (Completed — 71% Project Target)
+- [x] Train in-house Model C: Fracture Classifier (`FractureClassifierCNN`, 995,169 parameters, 0.7336 ROC-AUC, 0.5151 PR-AUC).
+- [x] Handle strong class imbalance via training-set weighted BCE loss (`pos_weight = 4.811`).
+- [x] Implement conservative training radiograph data augmentation with tensor caching.
+- [x] Calibrate decision threshold (`0.35`) and clinical uncertainty band (`[0.23, 0.47]`) strictly on validation data.
+- [x] Complete untouched test set evaluation with per-body-part performance and structured error analysis.
+- [x] Complete FracAtlas localization annotation audit (719 annotated fracture images, 924 boxes) and Grad-CAM visualizer.
+- [x] Build cascaded `Stage4InferencePipeline` with safety gates rejecting non-radiographs and unknown anatomy.
+- [x] All 44 automated tests passing; frontend production build verified.
 
-### Stage 4: Service Integration & Feature Implementation
-- Connect FastAPI backend to live PyTorch inference engine.
-- Wire frontend upload, routing, and simplified explanation views.
-- Implement interactive SVG anatomical map for My X-Ray Map.
+### Stage 5: Service Integration & Feature Implementation (Planned)
+- Connect FastAPI backend `/api/v1/analyze` to live PyTorch Stage 4 inference engine.
+- Wire frontend upload, routing, and patient-friendly simplified explanation views.
+- Implement interactive SVG anatomical map for My X-Ray Map and longitudinal history.
 
-### Stage 5: End-to-End Testing & Review
-- Comprehensive unit and integration test coverage across frontend and backend.
-- Performance profiling and clinical safety review.

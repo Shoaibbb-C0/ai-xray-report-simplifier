@@ -1,0 +1,44 @@
+{
+  "model_name": "FractureClassifierCNN",
+  "task": "fracture",
+  "parameter_count": 995169,
+  "input_resolution": [
+    224,
+    224
+  ],
+  "input_channels": 1,
+  "train_samples": 2859,
+  "val_samples": 611,
+  "class_imbalance": {
+    "train_negatives": 2367,
+    "train_positives": 492,
+    "pos_weight": 4.811
+  },
+  "augmentation": {
+    "horizontal_flip_p": 0.5,
+    "affine_degrees": [
+      -8,
+      8
+    ],
+    "affine_translate": [
+      0.04,
+      0.04
+    ],
+    "affine_scale": [
+      0.96,
+      1.04
+    ]
+  },
+  "hyperparameters": {
+    "epochs": 6,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "optimizer": "AdamW",
+    "scheduler": "ReduceLROnPlateau",
+    "loss": "BCEWithLogitsLoss(weighted)",
+    "primary_metric": "f1",
+    "patience": 4,
+    "seed": 42
+  }
+}

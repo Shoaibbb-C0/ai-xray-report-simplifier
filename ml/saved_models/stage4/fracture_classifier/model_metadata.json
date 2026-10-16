@@ -1,0 +1,32 @@
+{
+  "model_name": "FractureClassifierCNN",
+  "checkpoint_file": "best_fracture_classifier.pt",
+  "file_size_bytes": 11977987,
+  "file_size_mb": 11.42,
+  "sha256": "6696910128f3c0baf8d1d5725c83f4f85620be89511fda6400593cfc48e8ab31",
+  "architecture": "FractureClassifierCNN (5 Conv Blocks, BatchNorm, MaxPool, AdaptiveAvgPool, Dropout, Linear)",
+  "parameters": 995169,
+  "input_shape": [
+    1,
+    224,
+    224
+  ],
+  "dataset": "FracAtlas",
+  "split_version": "fracatlas_v2",
+  "seed": 42,
+  "loss": "BCEWithLogitsLoss(pos_weight=4.8110)",
+  "optimizer": "AdamW(lr=0.001, weight_decay=0.0001)",
+  "scheduler": "ReduceLROnPlateau(mode=max, factor=0.5, patience=2)",
+  "calibrated_threshold": 0.35,
+  "uncertainty_range": [
+    0.23,
+    0.47
+  ],
+  "hardware": "AMD Ryzen 7 5800H (8 Cores, 16 Threads), CPU-only",
+  "software": {
+    "os": "Windows 11",
+    "python": "3.14.7",
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu"
+  }
+}

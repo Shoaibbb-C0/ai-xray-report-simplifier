@@ -149,12 +149,13 @@ pytest -v
 ---
 
 ## 8. Current Stage & Roadmap
-
+ 
 | Stage | Description | Status |
 | :--- | :--- | :--- |
 | **Stage 1** | **Repository Foundation & Starter Shell** | **Completed** |
 | **Stage 2** | **Public Dataset Curation & Preprocessing Pipeline** | **Completed** |
 | **Stage 3** | **X-Ray Validator & Body-Part Classifier PyTorch Models** | **Completed** |
-| **Stage 4** | Pathology Screening Networks & Smart Analysis Integration | Planned |
-| **Stage 5** | Interactive Anatomical Map & Patient Support Features | Planned |
+| **Stage 4** | **Abnormality Detection & Specialized Model (Fracture Classifier)** | **Completed (71% Target)** |
+| **Stage 5** | Service Integration, Anatomical Map & Patient Support Features | Planned |
+
 

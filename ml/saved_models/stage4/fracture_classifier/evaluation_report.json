@@ -1,0 +1,149 @@
+{
+  "model": "FractureClassifierCNN",
+  "task": "fracture",
+  "checkpoint": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Shoaib\\Projects\\ai-xray-report-simplifier\\ml\\saved_models\\stage4\\fracture_classifier\\best_fracture_classifier.pt",
+  "test_size": 613,
+  "fracture_count": 113,
+  "non_fracture_count": 500,
+  "fracture_prevalence": 0.1843,
+  "applied_threshold": 0.35,
+  "uncertainty_policy": {
+    "lower_bound": 0.23,
+    "upper_bound": 0.47,
+    "uncertain_samples_val": 388,
+    "uncertain_percentage_val": 63.5,
+    "decision_rule": "p < 0.23: NO_FRACTURE | 0.23 <= p <= 0.47: UNCERTAIN | p > 0.47: FRACTURE"
+  },
+  "test_uncertain_cases": {
+    "count": 404,
+    "percentage": 65.91
+  },
+  "canonical_test_metrics": {
+    "accuracy": 0.6705,
+    "balanced_accuracy": 0.6576,
+    "precision": 0.309,
+    "recall_sensitivity": 0.6372,
+    "specificity": 0.678,
+    "f1": 0.4162,
+    "roc_auc": 0.7336,
+    "pr_auc": 0.5151,
+    "true_positives": 72,
+    "true_negatives": 339,
+    "false_positives": 161,
+    "false_negatives": 41,
+    "confusion_matrix": [
+      [
+        339,
+        161
+      ],
+      [
+        41,
+        72
+      ]
+    ],
+    "threshold": 0.35,
+    "total_samples": 613
+  },
+  "per_body_part": {
+    "HAND": {
+      "total_samples": 192,
+      "fracture_count": 59,
+      "non_fracture_count": 133,
+      "precision": 0.3554,
+      "recall": 0.7288,
+      "specificity": 0.4135,
+      "f1": 0.4778,
+      "balanced_accuracy": 0.5712,
+      "accuracy": 0.5104,
+      "false_positives": 78,
+      "false_negatives": 16,
+      "reliability_note": null
+    },
+    "HIP": {
+      "total_samples": 21,
+      "fracture_count": 2,
+      "non_fracture_count": 19,
+      "precision": 0.0,
+      "recall": 0.0,
+      "specificity": 1.0,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "accuracy": 0.9048,
+      "false_positives": 0,
+      "false_negatives": 2,
+      "reliability_note": "Small sample size (2 positive cases in test split). Metrics are statistically fragile and should not be used for clinical generalizations."
+    },
+    "LEG": {
+      "total_samples": 323,
+      "fracture_count": 34,
+      "non_fracture_count": 289,
+      "precision": 0.2209,
+      "recall": 0.5588,
+      "specificity": 0.7682,
+      "f1": 0.3167,
+      "balanced_accuracy": 0.6635,
+      "accuracy": 0.7461,
+      "false_positives": 67,
+      "false_negatives": 15,
+      "reliability_note": null
+    },
+    "MIXED": {
+      "total_samples": 61,
+      "fracture_count": 15,
+      "non_fracture_count": 46,
+      "precision": 0.4091,
+      "recall": 0.6,
+      "specificity": 0.7174,
+      "f1": 0.4865,
+      "balanced_accuracy": 0.6587,
+      "accuracy": 0.6885,
+      "false_positives": 13,
+      "false_negatives": 6,
+      "reliability_note": null
+    },
+    "SHOULDER": {
+      "total_samples": 16,
+      "fracture_count": 3,
+      "non_fracture_count": 13,
+      "precision": 0.25,
+      "recall": 0.3333,
+      "specificity": 0.7692,
+      "f1": 0.2857,
+      "balanced_accuracy": 0.5513,
+      "accuracy": 0.6875,
+      "false_positives": 3,
+      "false_negatives": 2,
+      "reliability_note": "Small sample size (3 positive cases in test split). Metrics are statistically fragile and should not be used for clinical generalizations."
+    }
+  },
+  "error_analysis": {
+    "false_positive_count": 161,
+    "false_negative_count": 41,
+    "false_negatives_by_body_part": {
+      "mixed": 6,
+      "leg": 15,
+      "hand": 16,
+      "hip": 2,
+      "shoulder": 2
+    },
+    "false_positives_by_body_part": {
+      "leg": 67,
+      "hand": 78,
+      "shoulder": 3,
+      "mixed": 13
+    },
+    "false_negatives_with_hardware": 7,
+    "false_positives_with_hardware": 0,
+    "false_negatives_multiscan": 1,
+    "false_positives_multiscan": 13,
+    "findings_summary": {
+      "false_negative_patterns": "False negatives occurred predominantly in subtle hairline or non-displaced fissures, with 16 in hand radiographs and 15 in leg scans. Multiscan composite images accounted for 1 of the missed fractures.",
+      "false_positive_patterns": "False positives were primarily triggered by complex overlapping bone projections, epiphyseal growth lines, and surgical hardware/implant artifacts (0 cases with hardware). Normal anatomical joint superimposition occasionally mimicked cortical interruption.",
+      "known_weaknesses": [
+        "Severely limited positive samples for Hip (2 test fractures) and Shoulder (3 test fractures) hinder regional reliability.",
+        "Subtle non-displaced micro-fractures lack conspicuous visual displacement and can evade lower-resolution 224x224 feature maps.",
+        "Metal implants and density variations from fixators can produce high-frequency edge gradients resembling fractures."
+      ]
+    }
+  }
+}
