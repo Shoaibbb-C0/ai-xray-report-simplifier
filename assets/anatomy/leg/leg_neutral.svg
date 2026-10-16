@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Educational anatomical illustration of normal lower limb leg anatomy showing tibia, fibula, and knee joint">
+  <title>Normal Leg Anatomy (Educational)</title>
+  <desc>Schematic diagram displaying the distal femur, knee joint space, patella, tibia, and fibula of a human lower leg in intact continuity.</desc>
+  <defs>
+    <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="subtleShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Top Badges -->
+  <g transform="translate(16, 20)">
+    <rect width="180" height="26" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2" />
+    <text x="90" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#0369a1" text-anchor="middle">Educational Anatomy Guide</text>
+  </g>
+
+  <g transform="translate(260, 20)">
+    <rect width="124" height="26" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+    <circle cx="274" cy="33" r="4" fill="#059669" />
+    <text x="325" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Intact Continuity</text>
+  </g>
+
+  <!-- Distal Femur (Thigh Bone) -->
+  <g id="femur" filter="url(#subtleShadow)">
+    <path d="M 175 60 L 225 60 L 225 110 Q 235 125 245 130 L 155 130 Q 165 125 175 110 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="200" y="95" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Distal Femur</text>
+  </g>
+
+  <!-- Knee Joint Space & Patella (Kneecap) -->
+  <g id="knee-joint">
+    <ellipse cx="200" cy="142" rx="16" ry="12" fill="url(#boneGrad)" stroke="#475569" stroke-width="1.8" filter="url(#subtleShadow)" />
+    <text x="200" y="146" font-family="system-ui, sans-serif" font-size="8" fill="#475569" font-weight="600" text-anchor="middle">Patella</text>
+  </g>
+
+  <!-- Lower Leg: Tibia (Shin Bone) & Fibula -->
+  <g id="tibia-fibula" filter="url(#subtleShadow)">
+    <!-- Tibia (Main, thick bone) -->
+    <path d="M 160 160 Q 155 175 170 185 L 172 320 Q 165 340 160 355 L 210 355 Q 212 340 216 320 L 224 185 Q 235 175 235 160 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="195" y="255" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">Tibia (Shin)</text>
+
+    <!-- Fibula (Slender lateral bone) -->
+    <path d="M 245 180 Q 252 190 250 205 L 246 315 Q 248 335 252 355 L 238 355 Q 236 335 236 315 L 238 205 Q 238 190 245 180 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="1.8" />
+    <text x="282" y="255" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Fibula</text>
+    <line x1="250" y1="252" x2="265" y2="252" stroke="#94a3b8" stroke-width="1" />
+  </g>
+
+  <!-- Ankle Joint Line -->
+  <g id="ankle">
+    <line x1="150" y1="360" x2="260" y2="360" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,3" />
+    <text x="200" y="375" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Ankle Joint Plane</text>
+  </g>
+
+  <text x="200" y="392" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Standard Leg Anatomy • Normal Bone Continuity Reference</text>
+</svg>

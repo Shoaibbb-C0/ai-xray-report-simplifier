@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Illustration indicating that the uploaded image is not a valid medical X-ray radiograph">
+  <title>Non-X-Ray Image Detected</title>
+  <desc>A clear schematic showing an invalid photo icon with an alert badge indicating the input image cannot be analyzed as a medical radiograph.</desc>
+  <defs>
+    <filter id="subtleShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Top Badge -->
+  <g transform="translate(110, 24)">
+    <rect width="180" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2" />
+    <text x="90" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#991b1b" text-anchor="middle">Input Validation Gate</text>
+  </g>
+
+  <!-- Photo Frame with Cross Mark -->
+  <g id="photo-frame" transform="translate(100, 90)" filter="url(#subtleShadow)">
+    <rect width="200" height="170" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5" />
+    <!-- Mountain/Sun generic photo icon -->
+    <path d="M 30 135 L 75 75 L 115 125 L 145 95 L 175 135 Z" fill="#cbd5e1" opacity="0.6" />
+    <circle cx="65" cy="55" r="14" fill="#fbbf24" opacity="0.7" />
+
+    <!-- Red Prohibition Ring -->
+    <circle cx="100" cy="85" r="54" fill="none" stroke="#dc2626" stroke-width="6" />
+    <line x1="62" y1="47" x2="138" y2="123" stroke="#dc2626" stroke-width="6" stroke-linecap="round" />
+  </g>
+
+  <!-- Text Explanations -->
+  <g transform="translate(200, 305)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700" fill="#0f172a" text-anchor="middle">Not a Medical X-Ray</text>
+    <text x="0" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">The uploaded file does not meet medical radiograph criteria.</text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Please upload a clear musculoskeletal X-ray image.</text>
+  </g>
+
+  <text x="200" y="388" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Safety Protocol • Non-Radiograph Gate</text>
+</svg>

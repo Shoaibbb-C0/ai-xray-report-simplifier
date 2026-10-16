@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Educational anatomical illustration of a normal hip joint showing pelvis, acetabulum, femoral head, and femoral neck">
+  <title>Normal Hip Anatomy (Educational)</title>
+  <desc>Schematic diagram displaying the pelvic bone, acetabular socket, femoral head, femoral neck, and proximal femur in intact alignment.</desc>
+  <defs>
+    <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="subtleShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Badges -->
+  <g transform="translate(16, 20)">
+    <rect width="180" height="26" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2" />
+    <text x="90" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#0369a1" text-anchor="middle">Educational Anatomy Guide</text>
+  </g>
+
+  <g transform="translate(260, 20)">
+    <rect width="124" height="26" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+    <circle cx="274" cy="33" r="4" fill="#059669" />
+    <text x="325" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Intact Continuity</text>
+  </g>
+
+  <!-- Pelvis (Ilium & Acetabulum) -->
+  <g id="pelvis" filter="url(#subtleShadow)">
+    <path d="M 60 70 Q 150 50 240 90 Q 280 115 285 160 Q 260 170 230 185 Q 200 200 190 240 Q 160 210 130 200 Q 90 200 65 170 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="145" y="120" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">Pelvis (Ilium)</text>
+    <!-- Acetabulum Socket Rim -->
+    <path d="M 210 160 A 38 38 0 0 1 270 215" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="3,2" />
+    <text x="280" y="145" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Socket (Acetabulum)</text>
+  </g>
+
+  <!-- Proximal Femur (Thigh bone head, neck, trochanters) -->
+  <g id="femur" filter="url(#subtleShadow)">
+    <!-- Femoral Head (Ball) -->
+    <circle cx="238" cy="192" r="30" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="238" y="196" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#334155" text-anchor="middle">Head</text>
+
+    <!-- Femoral Neck & Trochanter & Shaft -->
+    <path d="M 220 214 L 200 245 Q 185 248 175 260 L 180 370 L 225 370 L 225 285 Q 240 270 245 250 L 255 220 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="235" y="240" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Neck</text>
+    <text x="202" y="330" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#475569" text-anchor="middle">Femur Shaft</text>
+  </g>
+
+  <text x="200" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Standard Hip Anatomy • Normal Joint & Bone Alignment Reference</text>
+</svg>

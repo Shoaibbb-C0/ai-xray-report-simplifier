@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Educational anatomical illustration of a generic human bone in normal continuity">
+  <title>Generic Bone Anatomy (Educational)</title>
+  <desc>Schematic diagram displaying a generic human long bone (epiphysis, metaphysis, and diaphysis) in intact continuity.</desc>
+  <defs>
+    <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="subtleShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Badges -->
+  <g transform="translate(16, 20)">
+    <rect width="180" height="26" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2" />
+    <text x="90" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#0369a1" text-anchor="middle">Educational Anatomy Guide</text>
+  </g>
+
+  <g transform="translate(260, 20)">
+    <rect width="124" height="26" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+    <circle cx="274" cy="33" r="4" fill="#059669" />
+    <text x="325" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Intact Continuity</text>
+  </g>
+
+  <!-- Generic Long Bone -->
+  <g id="long-bone" filter="url(#subtleShadow)">
+    <path d="M 160 80 C 140 60 180 50 200 65 C 220 50 260 60 240 80 C 225 95 220 120 220 160 L 220 240 C 220 280 225 305 240 320 C 260 340 220 350 200 335 C 180 350 140 340 160 320 C 175 305 180 280 180 240 L 180 160 C 180 120 175 95 160 80 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2.5" />
+    <text x="200" y="205" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">Intact Bone Shaft</text>
+    <text x="200" y="105" font-family="system-ui, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Joint Surface</text>
+    <text x="200" y="305" font-family="system-ui, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Joint Surface</text>
+  </g>
+
+  <text x="200" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Generic Skeletal Anatomy • Normal Bone Continuity Reference</text>
+</svg>

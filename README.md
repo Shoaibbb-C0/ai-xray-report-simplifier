@@ -156,6 +156,8 @@ pytest -v
 | **Stage 2** | **Public Dataset Curation & Preprocessing Pipeline** | **Completed** |
 | **Stage 3** | **X-Ray Validator & Body-Part Classifier PyTorch Models** | **Completed** |
 | **Stage 4** | **Abnormality Detection & Specialized Model (Fracture Classifier)** | **Completed (71% Target)** |
-| **Stage 5** | Service Integration, Anatomical Map & Patient Support Features | Planned |
+| **Stage 5** | **Visual Explanation Engine & Patient-Safe Interface** | **Completed (79% Target)** |
+| **Stage 6** | **Database & Persistence Layer (Supabase)** | Planned |
+
 
 

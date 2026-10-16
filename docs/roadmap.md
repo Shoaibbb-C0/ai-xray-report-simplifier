@@ -52,8 +52,21 @@
 - [x] Build cascaded `Stage4InferencePipeline` with safety gates rejecting non-radiographs and unknown anatomy.
 - [x] All 44 automated tests passing; frontend production build verified.
 
-### Stage 5: Service Integration & Feature Implementation (Planned)
-- Connect FastAPI backend `/api/v1/analyze` to live PyTorch Stage 4 inference engine.
-- Wire frontend upload, routing, and patient-friendly simplified explanation views.
-- Implement interactive SVG anatomical map for My X-Ray Map and longitudinal history.
+### Stage 5: Visual Explanation Engine (Completed — 79% Project Target)
+- [x] Establish strict conceptual separation: Model Prediction vs Model Attention vs Explanatory Illustration.
+- [x] Create original application-owned accessible SVG anatomical illustrations for Hand, Leg, Hip, Shoulder, and generic fallbacks.
+- [x] Build deterministic, patient-safe `VisualExplanationEngine` with zero third-party commercial AI API dependencies.
+- [x] Implement structured 8-state resolution (`VALID_XRAY_FRACTURE_SUSPECTED`, `VALID_XRAY_NO_FRACTURE_SIGNAL`, `VALID_XRAY_UNCERTAIN`, etc.).
+- [x] Enforce Grad-CAM attention suppression for uncertain, non-radiograph, and unrecognized anatomy cases.
+- [x] Maintain localization boundary: mark experimental bounding box heads as unverified and disable for patients.
+- [x] Implement translation registry supporting English, Hindi, and Marathi with plain-language medical glossary.
+- [x] Create reusable frontend components (`AnatomicalIllustration`, `EducationalComparison`, `ModelAttentionOverlay`, `ExplanationCard`, `LimitationNotice`).
+- [x] Build development preview route (`/dev/explanations`) with 7 deterministic software fixtures.
+- [x] All 57 automated tests passing; frontend production build verified.
+
+### Stage 6: Database & Persistence Layer (Planned — Next Stage)
+- Introduce Supabase backend for secure patient history and scan metadata storage.
+- Implement structured database schema with row-level security (RLS).
+- Store serializable Stage 5 explanation results alongside scan records.
+
 

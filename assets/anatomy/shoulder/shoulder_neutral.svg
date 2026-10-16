@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Educational anatomical illustration of a normal shoulder girdle showing clavicle, scapula, and humerus">
+  <title>Normal Shoulder Anatomy (Educational)</title>
+  <desc>Schematic diagram displaying the clavicle, acromion process, scapula body, glenoid fossa, and proximal humerus in intact alignment.</desc>
+  <defs>
+    <linearGradient id="boneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="subtleShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- Badges -->
+  <g transform="translate(16, 20)">
+    <rect width="180" height="26" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.2" />
+    <text x="90" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#0369a1" text-anchor="middle">Educational Anatomy Guide</text>
+  </g>
+
+  <g transform="translate(260, 20)">
+    <rect width="124" height="26" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+    <circle cx="274" cy="33" r="4" fill="#059669" />
+    <text x="325" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Intact Continuity</text>
+  </g>
+
+  <!-- Clavicle (Collarbone) -->
+  <g id="clavicle" filter="url(#subtleShadow)">
+    <path d="M 60 100 Q 140 85 200 95 Q 240 100 270 115 L 265 130 Q 235 118 195 112 Q 135 105 60 120 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="155" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#475569" text-anchor="middle">Clavicle (Collarbone)</text>
+  </g>
+
+  <!-- Scapula (Shoulder Blade & Glenoid) -->
+  <g id="scapula" filter="url(#subtleShadow)">
+    <path d="M 270 120 L 290 125 Q 300 135 295 150 L 250 170 Q 230 180 210 200 L 190 310 Q 170 280 160 220 Q 150 160 210 145 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="210" y="240" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#475569" text-anchor="middle">Scapula</text>
+    <!-- Glenoid cavity rim -->
+    <path d="M 235 160 A 24 24 0 0 1 250 200" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="3,2" />
+  </g>
+
+  <!-- Humerus (Upper Arm Bone) -->
+  <g id="humerus" filter="url(#subtleShadow)">
+    <!-- Humeral Head (Ball) -->
+    <circle cx="265" cy="180" r="28" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="265" y="184" font-family="system-ui, sans-serif" font-size="9" fill="#334155" font-weight="600" text-anchor="middle">Head</text>
+
+    <!-- Shaft -->
+    <path d="M 245 205 L 230 370 L 275 370 L 285 205 Z" fill="url(#boneGrad)" stroke="#475569" stroke-width="2" />
+    <text x="255" y="290" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Humerus</text>
+  </g>
+
+  <text x="200" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Standard Shoulder Anatomy • Normal Joint & Bone Alignment Reference</text>
+</svg>
