@@ -44,7 +44,7 @@ def compute_file_sha256(path: Path) -> Optional[str]:
 class Stage4InferencePipeline:
     """Integrated cascaded diagnostic-support pipeline for Stage 4."""
 
-    SUPPORTED_BODY_PARTS = {"hand", "leg", "hip", "shoulder", "mixed"}
+    SUPPORTED_BODY_PARTS = {"hand", "leg", "hip", "shoulder"}
 
     def __init__(
         self,

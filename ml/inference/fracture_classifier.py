@@ -53,6 +53,8 @@ class FractureInferenceEngine:
                 pass
 
     def _load_checkpoint(self) -> None:
+        if not self.ckpt_path.is_file():
+            raise FileNotFoundError("Trained fracture model checkpoint is unavailable")
         if self.ckpt_path.exists():
             ckpt = torch.load(self.ckpt_path, map_location=self.device)
             self.model.load_state_dict(ckpt["model_state_dict"])

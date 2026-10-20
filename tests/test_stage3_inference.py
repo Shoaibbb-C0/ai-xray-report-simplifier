@@ -26,6 +26,7 @@ def test_stage3_pipeline_execution(tmp_path: Path):
     assert "pipeline_status" in result
 
 
+@pytest.mark.skipif(not all(path.is_file() for path in (VALIDATOR_CKPT, BODY_PART_CKPT)), reason="Trained Stage 3 checkpoints are missing")
 def test_stage3_pipeline_metadata():
     pipeline = Stage3InferencePipeline(device="cpu")
     meta = pipeline.get_metadata()

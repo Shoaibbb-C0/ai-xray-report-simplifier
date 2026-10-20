@@ -3,8 +3,10 @@
 from fastapi import APIRouter
 from backend.app.core.config import settings
 from backend.app.services.ml_service import ml_service
+from backend.app.api.v1.analysis import router as analysis_router
 
 router = APIRouter()
+router.include_router(analysis_router)
 
 
 @router.get("/health")

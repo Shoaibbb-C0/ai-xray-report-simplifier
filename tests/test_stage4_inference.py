@@ -104,7 +104,7 @@ def test_stage4_pipeline_real_xray_routing(real_xray_image: Path, trained_checkp
     assert "total_pipeline_ms" in result["timings_ms"]
 
 
-def test_stage4_pipeline_metadata():
+def test_stage4_pipeline_metadata(trained_checkpoints):
     """Verify get_metadata returns provenance, model hashes, and thresholds."""
     pipeline = Stage4InferencePipeline(device="cpu")
     meta = pipeline.get_metadata()

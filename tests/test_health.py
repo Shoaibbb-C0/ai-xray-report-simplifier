@@ -3,7 +3,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.app.main import app
-from backend.app.services.ml_service import ml_service, ModelNotLoadedError
+from backend.app.services.ml_service import ml_service, ModelNotLoadedError, MLInferenceService
 
 client = TestClient(app)
 
@@ -37,6 +37,7 @@ def test_system_status_reports_uninitialized_ml():
 
 def test_placeholder_ml_service_blocks_inference():
     """Confirm ML service rejects inference calls before models are trained/loaded."""
-    assert not ml_service.is_ready
+    service = MLInferenceService()
+    assert not service.is_ready
     with pytest.raises(ModelNotLoadedError):
-        ml_service.run_inference(None)
+        service.run_inference(None)

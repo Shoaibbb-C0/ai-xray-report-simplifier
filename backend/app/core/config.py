@@ -17,10 +17,8 @@ class Settings:
     PORT: int = int(os.getenv("PORT", "8000"))
     
     # Allowed CORS origins for frontend integration
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
+    CORS_ORIGINS: List[str] = [origin.strip() for origin in os.getenv(
+        "CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if origin.strip() and origin.strip() != "*"]
 
 
 settings = Settings()

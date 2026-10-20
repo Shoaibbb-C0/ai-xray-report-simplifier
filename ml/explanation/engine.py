@@ -117,8 +117,8 @@ class VisualExplanationEngine:
         lang: str = "en",
     ) -> ExplanationResult:
         """Translate Stage 3 + Stage 4 cascade result into a structured explanation."""
-        xray_val = cascade_output.get("xray_validation", {})
-        body_part_res = cascade_output.get("body_part", {})
+        xray_val = cascade_output.get("xray_validation") or {}
+        body_part_res = cascade_output.get("body_part") or {}
         abnormality_res = cascade_output.get("abnormality", {})
 
         is_xray = bool(
@@ -169,7 +169,16 @@ class VisualExplanationEngine:
         # -------------------------------------------------------------
         # Determine High-Level Analysis State
         # -------------------------------------------------------------
-        if not is_xray:
+        if cascade_output.get("pipeline_status") == "MODEL_UNAVAILABLE":
+            status = AnalysisStatus.MODEL_UNAVAILABLE
+            finding_state = FindingState.NOT_ANALYZED
+        elif cascade_output.get("pipeline_status") == "ERROR":
+            status = AnalysisStatus.ERROR
+            finding_state = FindingState.NOT_ANALYZED
+        elif str(xray_val.get("result", "")).lower() == "uncertain":
+            status = AnalysisStatus.XRAY_VALIDATION_UNCERTAIN
+            finding_state = FindingState.NOT_ANALYZED
+        elif not is_xray:
             status = AnalysisStatus.NON_XRAY
             finding_state = FindingState.NOT_ANALYZED
         elif val_conf < 0.60:

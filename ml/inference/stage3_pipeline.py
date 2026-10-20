@@ -63,6 +63,9 @@ class Stage3InferencePipeline:
         self._load_checkpoints()
 
     def _load_checkpoints(self) -> None:
+        for checkpoint in (self.val_ckpt_path, self.bp_ckpt_path):
+            if not Path(checkpoint).is_file():
+                raise FileNotFoundError("Trained Stage 3 model checkpoint is unavailable")
         if self.val_ckpt_path.exists():
             ckpt = torch.load(self.val_ckpt_path, map_location=self.device)
             self.validator_model.load_state_dict(ckpt["model_state_dict"])
@@ -124,6 +127,10 @@ class Stage3InferencePipeline:
         # If rejected as non-xray, we do not force body-part prediction
         if validator_decision == "NON_XRAY":
             result["pipeline_status"] = "rejected_non_xray"
+            return result
+
+        if validator_decision == "UNCERTAIN":
+            result["pipeline_status"] = "uncertain_xray"
             return result
 
         # 2. Body-Part Inference (for accepted or uncertain x-rays)
