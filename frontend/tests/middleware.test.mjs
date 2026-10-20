@@ -38,6 +38,6 @@ test('middleware redirects anonymous/forged sessions and preserves refreshed coo
   assert.equal((await middleware(request('/history'))).status,200);
   configEnabled = false;
   const setup = await middleware(request('/map'));
-  assert.equal(new URL(setup.url).searchParams.get('setup'),'required');
+  assert.equal(setup.status,200); // Offline map contains no patient data or fake authentication.
   delete globalThis.__stage6Mocks;
 });

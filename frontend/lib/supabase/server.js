@@ -4,10 +4,10 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { supabaseConfig } from './config';
 
-export function createClient() {
+export async function createClient() {
   const config = supabaseConfig();
   if (!config) return null;
-  const store = cookies();
+  const store = await cookies();
   return createServerClient(config.url, config.key, {
     cookies: {
       getAll: () => store.getAll(),
@@ -20,7 +20,7 @@ export function createClient() {
 }
 
 export async function requirePatient() {
-  const client = createClient();
+  const client = await createClient();
   if (!client) redirect('/login?setup=required');
   const { data, error } = await client.auth.getUser();
   if (error || !data.user) redirect('/login');

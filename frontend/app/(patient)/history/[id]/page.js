@@ -5,11 +5,14 @@ import { getScanById } from '@/services/scans';
 import { copy } from '@/lib/patient-copy';
 import ExplanationCard from '@/components/explanation/ExplanationCard';
 import AnatomicalIllustration from '@/components/explanation/AnatomicalIllustration';
+import { supabaseConfig } from '@/lib/supabase/config';
 
 export default async function ScanPage({ params }) {
+  if (!supabaseConfig()) notFound();
+  const { id } = await params;
   const { client, user } = await requirePatient();
   let scan;
-  try { scan = await getScanById(client, user.id, params.id); } catch { return <p role="alert">{copy.loadError}</p>; }
+  try { scan = await getScanById(client, user.id, id); } catch { return <p role="alert">{copy.loadError}</p>; }
   if (!scan) notFound();
   const result = Array.isArray(scan.analysis_results) ? scan.analysis_results[0] : scan.analysis_results;
   const explanation = result?.explanation;

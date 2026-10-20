@@ -21,7 +21,7 @@ export async function middleware(request) {
     }});
     try { const { data } = await client.auth.getUser(); user = data.user; } catch { /* Fail closed. */ }
   }
-  if (protectedRoute && !user) {
+  if (protectedRoute && config && !user) {
     const url = new URL('/login', request.url);
     url.searchParams.set('next', request.nextUrl.pathname);
     if (!config) url.searchParams.set('setup', 'required');

@@ -1,124 +1,21 @@
-"use client";
+'use client';
+import LimitationNotice from './LimitationNotice';
 
-import React from "react";
-import LimitationNotice from "./LimitationNotice";
+const labels = {
+ en: { heading:'A cautious reading', purpose:'What this image is about', finding:'Model finding', meaning:'What it may mean', next:'Your next step', regions:{hand:'Hand',leg:'Leg',hip:'Hip',shoulder:'Shoulder',mixed:'Multiple regions',unknown:'Unrecognized region'}, states:{VALID_XRAY_FRACTURE_SUSPECTED:'Possible fracture-related features',VALID_XRAY_NO_FRACTURE_SIGNAL:'No strong fracture signal',VALID_XRAY_UNCERTAIN:'Result uncertain',BODY_PART_UNKNOWN:'Unsupported body region',NON_XRAY:'Image not accepted as an X-ray',XRAY_VALIDATION_UNCERTAIN:'X-ray check uncertain',MODEL_UNAVAILABLE:'Model unavailable',ERROR:'Analysis not completed'} },
+ hi: { heading:'सावधानीपूर्ण विवरण', purpose:'यह छवि किस बारे में है', finding:'मॉडल का परिणाम', meaning:'इसका क्या अर्थ हो सकता है', next:'आपका अगला कदम', regions:{hand:'हाथ',leg:'पैर',hip:'कूल्हा',shoulder:'कंधा',mixed:'एक से अधिक अंग',unknown:'अज्ञात अंग'}, states:{VALID_XRAY_FRACTURE_SUSPECTED:'संभावित फ्रैक्चर संबंधी संकेत',VALID_XRAY_NO_FRACTURE_SIGNAL:'कोई मजबूत फ्रैक्चर संकेत नहीं',VALID_XRAY_UNCERTAIN:'अनिश्चित परिणाम',BODY_PART_UNKNOWN:'असमर्थित अंग',NON_XRAY:'छवि एक्स-रे के रूप में स्वीकार नहीं हुई',XRAY_VALIDATION_UNCERTAIN:'एक्स-रे जाँच अनिश्चित',MODEL_UNAVAILABLE:'मॉडल उपलब्ध नहीं',ERROR:'विश्लेषण पूरा नहीं हुआ'} },
+ mr: { heading:'काळजीपूर्वक स्पष्टीकरण', purpose:'ही प्रतिमा कशाबद्दल आहे', finding:'मॉडेलचा निकाल', meaning:'याचा काय अर्थ असू शकतो', next:'तुमची पुढील पायरी', regions:{hand:'हात',leg:'पाय',hip:'खुबा',shoulder:'खांदा',mixed:'एकापेक्षा जास्त भाग',unknown:'अज्ञात भाग'}, states:{VALID_XRAY_FRACTURE_SUSPECTED:'संभाव्य फ्रॅक्चरशी संबंधित संकेत',VALID_XRAY_NO_FRACTURE_SIGNAL:'फ्रॅक्चरचा ठळक संकेत नाही',VALID_XRAY_UNCERTAIN:'अनिश्चित निकाल',BODY_PART_UNKNOWN:'असमर्थित भाग',NON_XRAY:'प्रतिमा एक्स-रे म्हणून स्वीकारली नाही',XRAY_VALIDATION_UNCERTAIN:'एक्स-रेची पडताळणी अनिश्चित',MODEL_UNAVAILABLE:'मॉडेल उपलब्ध नाही',ERROR:'विश्लेषण पूर्ण झाले नाही'} },
+};
 
-/**
- * ExplanationCard: Renders the structured 4-part patient-facing explanation:
- * 1. WHAT THIS X-RAY IS ABOUT
- * 2. MODEL FINDING
- * 3. WHAT IT MAY MEAN
- * 4. NEXT STEPS
- */
-export default function ExplanationCard({
-  explanation,
-  className = "",
-}) {
-  if (!explanation) return null;
-
-  const {
-    analysis_status,
-    body_part,
-    finding,
-    summary,
-    what_this_test_checks,
-    what_the_result_means,
-    next_step_message,
-    limitations = [],
-  } = explanation;
-
-  // Status badge styling
-  let badgeStyle = "bg-slate-100 text-slate-800 border-slate-300";
-  let statusText = "Evaluation Complete";
-
-  if (analysis_status === "VALID_XRAY_FRACTURE_SUSPECTED") {
-    badgeStyle = "bg-rose-100 text-rose-900 border-rose-300";
-    statusText = "Fracture Features Suspected";
-  } else if (analysis_status === "VALID_XRAY_NO_FRACTURE_SIGNAL") {
-    badgeStyle = "bg-emerald-100 text-emerald-900 border-emerald-300";
-    statusText = "No Strong Fracture Signal";
-  } else if (analysis_status === "VALID_XRAY_UNCERTAIN") {
-    badgeStyle = "bg-amber-100 text-amber-900 border-amber-300";
-    statusText = "Inconclusive / Low Confidence";
-  } else if (analysis_status === "NON_XRAY") {
-    badgeStyle = "bg-red-100 text-red-900 border-red-300";
-    statusText = "Non-Medical Radiograph";
-  } else if (analysis_status === "BODY_PART_UNKNOWN") {
-    badgeStyle = "bg-purple-100 text-purple-900 border-purple-300";
-    statusText = "Unsupported Body Region";
-  }
-
-  return (
-    <div className={`w-full bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6 ${className}`}>
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Musculoskeletal Radiograph Interpretation
-          </span>
-          <h2 className="text-xl font-bold text-slate-900 mt-0.5">
-            {body_part?.label || "Radiograph Assessment"}
-          </h2>
-        </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-bold border ${badgeStyle} self-start sm:self-auto`}>
-          {statusText}
-        </div>
-      </div>
-
-      {/* 1. WHAT THIS X-RAY IS ABOUT */}
-      <div className="space-y-1.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-          1. What This X-Ray Is About
-        </h3>
-        <p className="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
-          {what_this_test_checks}
-        </p>
-      </div>
-
-      {/* 2. MODEL FINDING */}
-      <div className="space-y-1.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
-          2. Model Finding
-        </h3>
-        <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm flex items-start gap-3">
-          <div className="w-2.5 h-2.5 rounded-full mt-1.5 bg-indigo-600 shrink-0"></div>
-          <div>
-            <h4 className="text-sm font-semibold text-slate-900">{summary}</h4>
-            {finding?.probability !== undefined && finding.probability !== null && (
-              <p className="text-xs text-slate-500 mt-1">
-                Estimated Fracture Signal: <strong>{(finding.probability * 100).toFixed(1)}%</strong>
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* 3. WHAT IT MAY MEAN */}
-      <div className="space-y-1.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-purple-500"></span>
-          3. What It May Mean
-        </h3>
-        <p className="text-sm text-slate-700 leading-relaxed bg-purple-50/50 p-3 rounded-lg border border-purple-100">
-          {what_the_result_means}
-        </p>
-      </div>
-
-      {/* 4. RECOMMENDED NEXT STEPS */}
-      <div className="space-y-1.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-          4. Recommended Next Steps
-        </h3>
-        <p className="text-sm font-medium text-emerald-950 leading-relaxed bg-emerald-50/70 p-3 rounded-lg border border-emerald-200">
-          {next_step_message}
-        </p>
-      </div>
-
-      {/* 5. LIMITATIONS & CLINICAL DISCLAIMERS */}
-      <LimitationNotice limitations={limitations} />
-    </div>
-  );
+export default function ExplanationCard({ explanation, language, className = '' }) {
+ if (!explanation) return null;
+ const lang = language || explanation.language || 'en';
+ const w = labels[lang] || labels.en;
+ const status = explanation.analysis_status;
+ const tone = status === 'VALID_XRAY_FRACTURE_SUSPECTED' ? 'caution' : status === 'VALID_XRAY_NO_FRACTURE_SIGNAL' ? 'neutral' : 'uncertain';
+ return <article className={`explanation-card ${className}`} lang={lang}>
+  <header><p className="eyebrow">{w.heading}</p><h2>{w.regions[explanation.body_part?.id] || explanation.body_part?.label}</h2><p className={`finding-badge ${tone}`}>{w.states[status] || w.states.ERROR}</p></header>
+  {[[w.purpose,explanation.what_this_test_checks],[w.finding,explanation.summary],[w.meaning,explanation.what_the_result_means],[w.next,explanation.next_step_message]].map(([title,text],index)=><section className={index===3?'next-step':''} key={title}><h3><span aria-hidden="true">0{index+1}</span>{title}</h3><p>{text}</p></section>)}
+  <LimitationNotice limitations={explanation.limitations || []} language={lang} />
+ </article>;
 }

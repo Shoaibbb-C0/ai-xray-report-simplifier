@@ -1,4 +1,5 @@
 import "./globals.css";
+import SiteHeader from '@/components/SiteHeader';
 
 export const metadata = {
   title: "AI X-Ray | Patient Support Intelligence",
@@ -8,9 +9,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#0b0d11] text-slate-100 antialiased selection:bg-teal-500/20 selection:text-teal-300">
-        {children}
+    <html lang="en">
+      <body>
+        <SiteHeader />
+        <div id="main-content">{children}</div>
       </body>
     </html>
   );

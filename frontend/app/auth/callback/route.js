@@ -4,7 +4,7 @@ import { ensureProfile } from '@/services/profiles';
 export async function GET(request) {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
-  const client = createClient();
+  const client = await createClient();
   if (code && client) {
     const { error } = await client.auth.exchangeCodeForSession(code);
     if (!error) {
