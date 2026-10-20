@@ -49,10 +49,10 @@ export default function AnalysisWorkspace() {
   }
   async function submit(event) {
     event.preventDefault();
-    if (saving) return;
+    if (busy || saving) return;
     const message = validateFile(file);
     if (message) { setError({ message }); return; }
-    setBusy(true); setError(null); setResult(null);
+    setBusy(true); setError(null); setResult(null); setSavedId(null); setSaveError('');
     const controller = new AbortController(); request.current = controller;
     try {
       const response = await analyzeImage(file, { language, attention, signal: controller.signal });
@@ -125,5 +125,3 @@ export default function AnalysisWorkspace() {
     <footer className="analysis-footnote"><span>Made for understanding.</span><p>{w.disclaimer}</p><span>Fracture scope · Four regions</span></footer>
   </main>;
 }
-
-

@@ -34,3 +34,17 @@ test('body map renders accessible keyboard regions and text counts', async () =>
   }
   assert.equal(target.props['aria-pressed'], false);
 });
+
+test('result cards distinguish unavailable/error/uncertain states and localize critical headings', async () => {
+  const React = require('react');
+  const { renderToStaticMarkup } = require('react-dom/server');
+  const Card = await component('components/explanation/ExplanationCard.jsx');
+  for (const [status, expected] of [['MODEL_UNAVAILABLE','Model unavailable'],['ERROR','Analysis not completed'],['XRAY_VALIDATION_UNCERTAIN','X-ray check uncertain'],['NON_XRAY','Image not accepted as an X-ray']]) {
+    const html = renderToStaticMarkup(React.createElement(Card,{explanation:{analysis_status:status,body_part:{id:'unknown'},limitations:['DEMO / TEST DATA'],summary:'TEST ONLY'}}));
+    assert.ok(html.includes(expected));
+    assert.ok(!html.includes('Evaluation Complete'));
+  }
+  const hindi = renderToStaticMarkup(React.createElement(Card,{explanation:{analysis_status:'VALID_XRAY_UNCERTAIN',body_part:{id:'hand'},language:'hi',limitations:[]}}));
+  assert.ok(hindi.includes('अनिश्चित परिणाम'));
+  assert.ok(hindi.includes('आपका अगला कदम'));
+});

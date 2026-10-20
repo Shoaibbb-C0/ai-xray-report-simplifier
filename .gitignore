@@ -24,6 +24,7 @@ htmlcov/
 # Node.js & Next.js
 node_modules/
 .next/
+.next-production/
 out/
 .turbo/
 npm-debug.log*

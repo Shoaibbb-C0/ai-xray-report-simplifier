@@ -37,7 +37,9 @@ def main():
             axes[0, 2].set(xlim=(0,1),ylim=(0,1.02),xlabel="Recall",ylabel="Precision",title=f"PR-AUC (101-threshold grid) {report['test_metrics']['pr_auc']:.3f}")
         figure.suptitle(f"{task.replace('_',' ').title()} · final_v1 · research evaluation, not clinical validation",fontsize=11)
         figure.tight_layout()
-        figure.savefig(destination / f"{task}.svg", bbox_inches="tight")
+        svg_path = destination / f"{task}.svg"
+        figure.savefig(svg_path, bbox_inches="tight")
+        svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
         preview = PROJECT_ROOT / ".venv" / f"{task}-evaluation.png"
         figure.savefig(preview, dpi=130, bbox_inches="tight")
         plt.close(figure)
