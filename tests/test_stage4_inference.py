@@ -34,12 +34,13 @@ def sample_orange_image(tmp_path: Path) -> Path:
 
 @pytest.fixture
 def real_xray_image() -> Path:
-    sample_p = Path("ml/learning/sample_image.png")
-    if sample_p.exists():
-        return sample_p
-    # Fallback to fracatlas image
-    frac_p = Path("ml/datasets/raw/fracatlas/FracAtlas/images/Non_fractured/IMG0000000.jpg")
-    return frac_p
+    from ml.datasets.registry import RAW_DATASETS_DIR
+    from ml.datasets.adapters.fracatlas import FracAtlasAdapter
+    samples = FracAtlasAdapter(RAW_DATASETS_DIR / "fracatlas").load_manifest()
+    sample = next((row for row in samples if row.body_part == "hand" and row.is_abnormal), None)
+    if sample is None:
+        pytest.skip("A real local FracAtlas hand radiograph is required")
+    return Path(sample.image_path)
 
 
 @pytest.mark.skipif(not DEFAULT_CKPT.is_file(), reason="Trained fracture checkpoint is missing; real inference is blocked")

@@ -1,0 +1,126 @@
+{
+  "version": "final_v1",
+  "seed": 42,
+  "near_duplicate_distance": 2,
+  "near_duplicate_pairs": 3745,
+  "duplicate_groups": 3087,
+  "removed_negative_duplicates": 934,
+  "patient_isolation": "unknown; duplicate-group proxy only",
+  "sources": {
+    "fracatlas": "CC BY 4.0; official Figshare article 22363012",
+    "retinamnist": "CC BY 4.0; official MedMNIST Zenodo record 10519652",
+    "dermamnist": "CC BY-NC 4.0; OOD only; official MedMNIST",
+    "cifar10": "Official Toronto distribution; cite Krizhevsky 2009"
+  },
+  "limitations": [
+    "Natural negatives are CIFAR10 32px; RetinaMNIST and DermaMNIST are 28px, uniformly upsampled before preprocessing.",
+    "Resolution/source shortcuts and domain shift remain possible; not clinical validation."
+  ],
+  "tasks": {
+    "validator": {
+      "train": {
+        "count": 4798,
+        "positive": 2922,
+        "body_parts": {
+          "leg": 1506,
+          "hand": 958,
+          "mixed": 280,
+          "shoulder": 68,
+          "hip": 110,
+          "null": 1876
+        }
+      },
+      "validation": {
+        "count": 959,
+        "positive": 610,
+        "body_parts": {
+          "leg": 324,
+          "hand": 165,
+          "mixed": 67,
+          "hip": 35,
+          "shoulder": 19,
+          "null": 349
+        }
+      },
+      "test": {
+        "count": 1092,
+        "positive": 551,
+        "body_parts": {
+          "leg": 294,
+          "hand": 158,
+          "shoulder": 14,
+          "mixed": 51,
+          "hip": 34,
+          "null": 541
+        }
+      }
+    },
+    "body_part": {
+      "train": {
+        "count": 2642,
+        "positive": 433,
+        "body_parts": {
+          "leg": 1506,
+          "hand": 958,
+          "shoulder": 68,
+          "hip": 110
+        }
+      },
+      "validation": {
+        "count": 543,
+        "positive": 106,
+        "body_parts": {
+          "leg": 324,
+          "hand": 165,
+          "hip": 35,
+          "shoulder": 19
+        }
+      },
+      "test": {
+        "count": 500,
+        "positive": 74,
+        "body_parts": {
+          "leg": 294,
+          "hand": 158,
+          "shoulder": 14,
+          "hip": 34
+        }
+      }
+    },
+    "fracture": {
+      "train": {
+        "count": 2922,
+        "positive": 504,
+        "body_parts": {
+          "leg": 1506,
+          "hand": 958,
+          "mixed": 280,
+          "shoulder": 68,
+          "hip": 110
+        }
+      },
+      "validation": {
+        "count": 610,
+        "positive": 125,
+        "body_parts": {
+          "leg": 324,
+          "hand": 165,
+          "mixed": 67,
+          "hip": 35,
+          "shoulder": 19
+        }
+      },
+      "test": {
+        "count": 551,
+        "positive": 90,
+        "body_parts": {
+          "leg": 294,
+          "hand": 158,
+          "shoulder": 14,
+          "mixed": 51,
+          "hip": 34
+        }
+      }
+    }
+  }
+}

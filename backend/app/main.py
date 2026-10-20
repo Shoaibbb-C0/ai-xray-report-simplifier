@@ -30,19 +30,26 @@ def create_app() -> FastAPI:
         CORSMiddleware,
         allow_origins=settings.CORS_ORIGINS,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     @app.middleware("http")
     async def bound_analysis_body(request, call_next):
         if request.method == "POST" and request.url.path == "/api/v1/analyze":
+            origin = request.headers.get("origin")
+            if origin and origin not in settings.CORS_ORIGINS:
+                return JSONResponse(status_code=403, content={"detail": {"code": "forbidden_origin", "message": "This origin is not permitted to use local analysis."}})
             length = request.headers.get("content-length", "")
             if not length.isdigit():
                 return JSONResponse(status_code=411, content={"detail": {"code": "length_required", "message": "An upload size is required."}})
             if int(length) > 11 * 1024 * 1024:
                 return JSONResponse(status_code=413, content={"detail": {"code": "file_too_large", "message": "Choose an image smaller than 10 MiB."}})
-        return await call_next(request)
+        response = await call_next(request)
+        if request.url.path == "/api/v1/analyze":
+            response.headers["Cache-Control"] = "private, no-store"
+            response.headers["X-Content-Type-Options"] = "nosniff"
+        return response
 
     # Core health check endpoint
     @app.get("/health", status_code=status.HTTP_200_OK)
@@ -52,6 +59,11 @@ def create_app() -> FastAPI:
             "status": "ok",
             "service": settings.SERVICE_NAME,
         }
+
+    @app.get("/ready")
+    def ready():
+        state = ml_service.get_service_status()
+        return JSONResponse(status_code=200 if state["ready"] else 503, content=state)
 
     # Mount versioned API routes
     app.include_router(api_v1_router, prefix=settings.API_V1_STR)

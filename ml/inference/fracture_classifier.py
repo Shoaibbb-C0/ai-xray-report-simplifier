@@ -10,9 +10,10 @@ import torch
 
 from ml.models.fracture_classifier import FractureClassifierCNN
 from ml.preprocessing.pipeline import XRayPreprocessor
+from ml.inference.model_files import select_checkpoint, model_metadata
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_CKPT = PROJECT_ROOT / "ml" / "saved_models" / "stage4" / "fracture_classifier" / "best_fracture_classifier.pt"
+DEFAULT_CKPT = select_checkpoint("fracture", PROJECT_ROOT / "ml/saved_models/stage4/fracture_classifier/best_fracture_classifier.pt")
 DEFAULT_THRESHOLD_REPORT = PROJECT_ROOT / "ml" / "saved_models" / "stage4" / "fracture_classifier" / "threshold_report.json"
 
 
@@ -28,6 +29,7 @@ class FractureInferenceEngine:
         self.device = torch.device(device)
         self.ckpt_path = Path(checkpoint_path) if checkpoint_path else DEFAULT_CKPT
         self.threshold_path = Path(threshold_report_path) if threshold_report_path else DEFAULT_THRESHOLD_REPORT
+        self.metadata = model_metadata(self.ckpt_path)
 
         self.preprocessor = XRayPreprocessor(target_size=(224, 224), mean=0.5, std=0.5)
         self.model = FractureClassifierCNN().to(self.device)
@@ -37,6 +39,11 @@ class FractureInferenceEngine:
         self.upper_bound = 0.47
 
         self._load_thresholds()
+        policy = self.metadata.get("policy", {})
+        self.threshold = policy.get("decision_threshold", self.threshold)
+        self.lower_bound = policy.get("lower_bound", self.lower_bound)
+        self.upper_bound = policy.get("upper_bound", self.upper_bound)
+        self.preprocessor = XRayPreprocessor(target_size=tuple(self.metadata.get("input_shape", [1, 224, 224])[1:]))
         self._load_checkpoint()
 
     def _load_thresholds(self) -> None:
@@ -56,7 +63,7 @@ class FractureInferenceEngine:
         if not self.ckpt_path.is_file():
             raise FileNotFoundError("Trained fracture model checkpoint is unavailable")
         if self.ckpt_path.exists():
-            ckpt = torch.load(self.ckpt_path, map_location=self.device)
+            ckpt = torch.load(self.ckpt_path, map_location=self.device, weights_only=True)
             self.model.load_state_dict(ckpt["model_state_dict"])
             self.model.eval()
 

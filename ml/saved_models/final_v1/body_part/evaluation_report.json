@@ -1,0 +1,220 @@
+{
+  "task": "body_part",
+  "selected": "baseline",
+  "test_metrics": {
+    "accuracy": 0.934,
+    "balanced_accuracy": 0.9309,
+    "macro_f1": 0.8944,
+    "weighted_f1": 0.9349,
+    "per_class": {
+      "HAND": {
+        "precision": 0.9408,
+        "recall": 0.9051,
+        "f1": 0.9226,
+        "support": 158
+      },
+      "LEG": {
+        "precision": 0.949,
+        "recall": 0.949,
+        "f1": 0.949,
+        "support": 294
+      },
+      "HIP": {
+        "precision": 0.9412,
+        "recall": 0.9412,
+        "f1": 0.9412,
+        "support": 34
+      },
+      "SHOULDER": {
+        "precision": 0.65,
+        "recall": 0.9286,
+        "f1": 0.7647,
+        "support": 14
+      }
+    },
+    "confusion_matrix": [
+      [
+        143,
+        15,
+        0,
+        0
+      ],
+      [
+        9,
+        279,
+        1,
+        5
+      ],
+      [
+        0,
+        0,
+        32,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        13
+      ]
+    ],
+    "total_samples": 500
+  },
+  "policy": {
+    "unknown_threshold": 0.6,
+    "selection_split": "validation"
+  },
+  "experiments": [
+    {
+      "name": "baseline",
+      "selection_score": 0.9074,
+      "validation_metrics": {
+        "accuracy": 0.9116,
+        "balanced_accuracy": 0.9287,
+        "macro_f1": 0.9074,
+        "weighted_f1": 0.9111,
+        "per_class": {
+          "HAND": {
+            "precision": 0.9067,
+            "recall": 0.8242,
+            "f1": 0.8635,
+            "support": 165
+          },
+          "LEG": {
+            "precision": 0.9164,
+            "recall": 0.9475,
+            "f1": 0.9317,
+            "support": 324
+          },
+          "HIP": {
+            "precision": 1.0,
+            "recall": 0.9429,
+            "f1": 0.9706,
+            "support": 35
+          },
+          "SHOULDER": {
+            "precision": 0.76,
+            "recall": 1.0,
+            "f1": 0.8636,
+            "support": 19
+          }
+        },
+        "confusion_matrix": [
+          [
+            136,
+            28,
+            0,
+            1
+          ],
+          [
+            14,
+            307,
+            0,
+            3
+          ],
+          [
+            0,
+            0,
+            33,
+            2
+          ],
+          [
+            0,
+            0,
+            0,
+            19
+          ]
+        ],
+        "total_samples": 543
+      },
+      "policy": {
+        "unknown_threshold": 0.6,
+        "selection_split": "validation"
+      },
+      "history": {
+        "best_epoch": 4,
+        "best_score": 0.9074,
+        "primary_metric": "macro_f1",
+        "history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.8439,
+            "val_loss": 0.6516,
+            "lr": 0.001,
+            "macro_f1": 0.7096,
+            "val_accuracy": 0.7606,
+            "val_balanced_accuracy": 0.71,
+            "val_macro_f1": 0.7096,
+            "val_weighted_f1": 0.7637
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.5053,
+            "val_loss": 1.0679,
+            "lr": 0.001,
+            "macro_f1": 0.4135,
+            "val_accuracy": 0.4991,
+            "val_balanced_accuracy": 0.5401,
+            "val_macro_f1": 0.4135,
+            "val_weighted_f1": 0.5511
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.4043,
+            "val_loss": 0.4261,
+            "lr": 0.001,
+            "macro_f1": 0.7041,
+            "val_accuracy": 0.7514,
+            "val_balanced_accuracy": 0.7405,
+            "val_macro_f1": 0.7041,
+            "val_weighted_f1": 0.7525
+          },
+          {
+            "epoch": 4,
+            "train_loss": 0.2841,
+            "val_loss": 0.1857,
+            "lr": 0.0005,
+            "macro_f1": 0.9074,
+            "val_accuracy": 0.9116,
+            "val_balanced_accuracy": 0.9287,
+            "val_macro_f1": 0.9074,
+            "val_weighted_f1": 0.9111
+          },
+          {
+            "epoch": 5,
+            "train_loss": 0.2168,
+            "val_loss": 0.2989,
+            "lr": 0.0005,
+            "macro_f1": 0.8127,
+            "val_accuracy": 0.8361,
+            "val_balanced_accuracy": 0.8634,
+            "val_macro_f1": 0.8127,
+            "val_weighted_f1": 0.8355
+          },
+          {
+            "epoch": 6,
+            "train_loss": 0.2071,
+            "val_loss": 0.4929,
+            "lr": 0.0005,
+            "macro_f1": 0.5859,
+            "val_accuracy": 0.6501,
+            "val_balanced_accuracy": 0.785,
+            "val_macro_f1": 0.5859,
+            "val_weighted_f1": 0.6759
+          }
+        ],
+        "checkpoint_path": "C:\\Users\\HASAN\\Desktop\\ai-xray-report-simplifier\\ml\\saved_models\\final_v1\\body_part\\baseline.pt"
+      },
+      "augmentation": "None"
+    }
+  ],
+  "test_evaluated_once": true,
+  "per_region": {},
+  "inference_ms_per_image": 10.52,
+  "unknown_rejection": {
+    "accepted": 473,
+    "rejected": 27,
+    "coverage": 0.946,
+    "accepted_accuracy": 0.9534883720930233
+  }
+}

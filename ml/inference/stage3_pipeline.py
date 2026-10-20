@@ -19,12 +19,13 @@ from PIL import Image, ImageFile
 from ml.models.xray_validator import XRayValidatorCNN
 from ml.models.body_part_classifier import BodyPartClassifierCNN
 from ml.preprocessing.pipeline import XRayPreprocessor
+from ml.inference.model_files import select_checkpoint, model_metadata
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-VALIDATOR_CKPT = PROJECT_ROOT / "ml" / "saved_models" / "stage3" / "validator" / "best_validator.pt"
-BODY_PART_CKPT = PROJECT_ROOT / "ml" / "saved_models" / "stage3" / "body_part" / "best_body_part.pt"
+VALIDATOR_CKPT = select_checkpoint("validator", PROJECT_ROOT / "ml/saved_models/stage3/validator/best_validator.pt")
+BODY_PART_CKPT = select_checkpoint("body_part", PROJECT_ROOT / "ml/saved_models/stage3/body_part/best_body_part.pt")
 
 
 def compute_file_sha256(path: Path) -> str:
@@ -56,6 +57,15 @@ class Stage3InferencePipeline:
 
         self.val_ckpt_path = validator_checkpoint or VALIDATOR_CKPT
         self.bp_ckpt_path = body_part_checkpoint or BODY_PART_CKPT
+        validator_metadata = model_metadata(self.val_ckpt_path)
+        body_metadata = model_metadata(self.bp_ckpt_path)
+        self.input_shape = validator_metadata.get("input_shape", [1, 224, 224])
+        if self.input_shape != body_metadata.get("input_shape", [1, 224, 224]):
+            raise ValueError("Model preprocessing configurations do not match")
+        self.preprocessor = XRayPreprocessor(target_size=tuple(self.input_shape[1:]))
+        self.val_lower = validator_metadata.get("policy", {}).get("lower_bound", self.val_lower)
+        self.val_upper = validator_metadata.get("policy", {}).get("upper_bound", self.val_upper)
+        self.bp_unknown_thresh = body_metadata.get("policy", {}).get("unknown_threshold", self.bp_unknown_thresh)
 
         self.validator_model = XRayValidatorCNN().to(self.device)
         self.body_part_model = BodyPartClassifierCNN(num_classes=4).to(self.device)
@@ -67,12 +77,12 @@ class Stage3InferencePipeline:
             if not Path(checkpoint).is_file():
                 raise FileNotFoundError("Trained Stage 3 model checkpoint is unavailable")
         if self.val_ckpt_path.exists():
-            ckpt = torch.load(self.val_ckpt_path, map_location=self.device)
+            ckpt = torch.load(self.val_ckpt_path, map_location=self.device, weights_only=True)
             self.validator_model.load_state_dict(ckpt["model_state_dict"])
             self.validator_model.eval()
 
         if self.bp_ckpt_path.exists():
-            ckpt = torch.load(self.bp_ckpt_path, map_location=self.device)
+            ckpt = torch.load(self.bp_ckpt_path, map_location=self.device, weights_only=True)
             self.body_part_model.load_state_dict(ckpt["model_state_dict"])
             self.body_part_model.eval()
 

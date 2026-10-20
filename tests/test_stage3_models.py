@@ -10,6 +10,11 @@ from ml.training.metrics import calculate_binary_metrics, calculate_multiclass_m
 import numpy as np
 
 
+def test_roc_auc_score_ties_are_neutral():
+    metrics = calculate_binary_metrics(np.array([1, 0, 1, 0]), np.array([.5, .5, .5, .5]))
+    assert metrics["roc_auc"] == .5
+
+
 def test_xray_validator_shapes():
     """Verify input/output shapes of Model A (X-Ray Validator)."""
     model = XRayValidatorCNN()

@@ -37,23 +37,25 @@ class VisualExplanationEngine:
         self.device = device
         self._gradcam = None
         self._fracture_model = None
+        self.attention_size = (224, 224)
 
     def _get_gradcam(self):
         """Lazy-load Grad-CAM instance only if attention visualization is requested."""
         if self._gradcam is None:
-            from ml.models.fracture_classifier import FractureClassifierCNN
             from ml.evaluation.gradcam import FractureGradCAM
 
-            ckpt_path = Path("ml/saved_models/stage4/fracture_classifier/best_fracture_classifier.pt")
-            if not ckpt_path.exists():
+            if self._fracture_model is not None:
+                self._gradcam = FractureGradCAM(self._fracture_model)
+                return self._gradcam
+
+            from ml.inference.fracture_classifier import FractureInferenceEngine
+            try:
+                engine = FractureInferenceEngine(device=self.device)
+            except FileNotFoundError:
                 return None
-            model = FractureClassifierCNN().to(self.device)
-            ckpt = torch.load(ckpt_path, map_location=self.device, weights_only=False)
-            state_dict = ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt
-            model.load_state_dict(state_dict)
-            model.eval()
-            self._fracture_model = model
-            self._gradcam = FractureGradCAM(model)
+            self._fracture_model = engine.model
+            self.attention_size = engine.preprocessor.target_size
+            self._gradcam = FractureGradCAM(engine.model)
         return self._gradcam
 
     def generate_attention_overlay(
@@ -68,19 +70,31 @@ class VisualExplanationEngine:
 
             from ml.preprocessing.pipeline import XRayPreprocessor
 
-            preprocessor = XRayPreprocessor(target_size=(224, 224))
+            preprocessor = XRayPreprocessor(target_size=self.attention_size)
 
+            content_box = None
             if isinstance(image_input, torch.Tensor):
                 tensor = image_input
             else:
-                tensor = preprocessor.preprocess(image_input)
+                source = preprocessor.load_image(image_input)
+                try:
+                    tensor = preprocessor.preprocess(source)
+                    with source.copy() as thumbnail:
+                        thumbnail.thumbnail(self.attention_size, Image.Resampling.BILINEAR)
+                        width, height = thumbnail.size
+                    x = (self.attention_size[0] - width) // 2
+                    y = (self.attention_size[1] - height) // 2
+                    content_box = (x, y, x + width, y + height)
+                finally:
+                    if source is not image_input:
+                        source.close()
 
             if tensor.ndim == 3:
                 tensor = tensor.unsqueeze(0)
             tensor = tensor.to(self.device)
             tensor.requires_grad = True
 
-            # Generate 224x224 float heatmap in [0, 1]
+            # Generate a model-resolution float heatmap in [0, 1].
             heatmap = gradcam.generate_heatmap(tensor)
 
             # Convert heatmap to RGBA transparent colormap (plasma-like thermal overlay)
@@ -102,6 +116,10 @@ class VisualExplanationEngine:
             rgba[:, :, 3] = alpha
 
             overlay_img = Image.fromarray(rgba, mode="RGBA")
+            # The browser contains the original image, not the padded model input.
+            # Remove padding so attention also aligns for images below model size.
+            if content_box is not None:
+                overlay_img = overlay_img.crop(content_box)
             buf = io.BytesIO()
             overlay_img.save(buf, format="PNG")
             b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
@@ -153,7 +171,7 @@ class VisualExplanationEngine:
             is_supported_anatomy = True
         elif raw_body_part == "mixed":
             body_id = BodyPartId.MIXED
-            is_supported_anatomy = True
+            is_supported_anatomy = False
         else:
             body_id = BodyPartId.UNKNOWN
             is_supported_anatomy = False
@@ -181,7 +199,7 @@ class VisualExplanationEngine:
         elif not is_xray:
             status = AnalysisStatus.NON_XRAY
             finding_state = FindingState.NOT_ANALYZED
-        elif val_conf < 0.60:
+        elif not xray_val.get("result") and val_conf < 0.60:
             status = AnalysisStatus.XRAY_VALIDATION_UNCERTAIN
             finding_state = FindingState.NOT_ANALYZED
         elif not is_supported_anatomy:
@@ -252,6 +270,9 @@ class VisualExplanationEngine:
 
         # 1. WHAT THIS X-RAY IS ABOUT
         purpose_key = f"anatomy.purpose.{body_id.value}"
+        if status in {AnalysisStatus.NON_XRAY, AnalysisStatus.XRAY_VALIDATION_UNCERTAIN,
+                      AnalysisStatus.MODEL_UNAVAILABLE, AnalysisStatus.ERROR}:
+            purpose_key = "validation.purpose"
         what_this_test_checks = t(purpose_key, lang=lang, default=t("anatomy.purpose.unknown", lang=lang))
 
         # 2. MODEL FINDING & SUMMARY
@@ -282,16 +303,16 @@ class VisualExplanationEngine:
         elif status == AnalysisStatus.BODY_PART_UNKNOWN:
             summary = t("validation.unknown_body_part", lang=lang)
             what_the_result_means = (
-                "Automated fracture detection is strictly calibrated for supported body regions "
+                "Automated fracture analysis is limited to supported body regions "
                 "(Hand, Leg, Hip, Shoulder). Because this region is unrecognized or unsupported, no fracture analysis was run."
             )
-            next_step_message = "Please upload an X-ray of a supported limb or joint."
+            next_step_message = t("next_step.unsupported", lang=lang)
 
         elif status == AnalysisStatus.NON_XRAY:
             summary = t("validation.non_xray", lang=lang)
             what_the_result_means = (
-                "The input image failed radiographic validation criteria (contrast, structure, or content) "
-                "and was not recognized as a medical X-ray."
+                "The local validator did not accept this image as an X-ray, so anatomy and fracture "
+                "analysis were not run. Rejection can be mistaken; ask a clinician if this is a genuine X-ray."
             )
             next_step_message = t("next_step.invalid", lang=lang)
 
@@ -304,13 +325,20 @@ class VisualExplanationEngine:
 
         elif status == AnalysisStatus.MODEL_UNAVAILABLE:
             summary = t("validation.model_unavailable", lang=lang)
-            what_the_result_means = "The specialized abnormality model is currently offline or undergoing maintenance."
-            next_step_message = "Please try again later or contact the clinical system administrator."
+            what_the_result_means = "The trained model is unavailable. No prediction was made."
+            next_step_message = t("next_step.unavailable", lang=lang)
 
         else:
-            summary = "An unexpected error occurred during image processing."
+            summary = t("validation.error", lang=lang)
             what_the_result_means = "The image could not be processed completely through the analysis cascade."
-            next_step_message = "Please check the file format and try uploading again."
+            next_step_message = t("next_step.error", lang=lang)
+
+        what_the_result_means = t(f"meaning.{status.value}", lang=lang, default=what_the_result_means)
+        if lang in {"hi", "mr"}:
+            visual_info.title = t("visual.title", lang=lang)
+            visual_info.label_notice = t("visual.notice", lang=lang)
+            visual_info.alt_text = t("visual.title", lang=lang)
+            attention_info.disclaimer = t("attention.disclaimer", lang=lang)
 
         # Model versions audit
         model_versions = cascade_output.get("models", {

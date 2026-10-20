@@ -1,0 +1,166 @@
+{
+  "model_name": "BodyPartClassifierCNN",
+  "version": "final_v1",
+  "architecture": "BodyPartClassifierCNN(\n  (features): Sequential(\n    (0): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (2): ReLU(inplace=True)\n    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (4): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (5): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (6): ReLU(inplace=True)\n    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (8): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (9): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (10): ReLU(inplace=True)\n    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (12): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (13): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (14): ReLU(inplace=True)\n    (15): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n  )\n  (pool): AdaptiveAvgPool2d(output_size=(1, 1))\n  (classifier): Sequential(\n    (0): Flatten(start_dim=1, end_dim=-1)\n    (1): Dropout(p=0.4, inplace=False)\n    (2): Linear(in_features=128, out_features=64, bias=True)\n    (3): ReLU(inplace=True)\n    (4): Linear(in_features=64, out_features=4, bias=True)\n  )\n)",
+  "parameter_count": 105908,
+  "split_version": "final_v1",
+  "input_shape": [
+    1,
+    128,
+    128
+  ],
+  "normalization": {
+    "mean": 0.5,
+    "std": 0.5
+  },
+  "augmentation": "None",
+  "seed": 42,
+  "training_date": "2026-10-20T19:15:34.413291+00:00",
+  "hardware": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+  "device": "cpu",
+  "optimizer": "AdamW(lr=.001,weight_decay=.0001)",
+  "loss": "weighted CrossEntropyLoss",
+  "policy": {
+    "unknown_threshold": 0.6,
+    "selection_split": "validation"
+  },
+  "checkpoint_file": "best_body_part.pt",
+  "sha256": "a6be0c70e9dc972bab2953d9597cc63136444cead2950db78faa6b764ea0d9f1",
+  "git_commit": "dfb0aa3f6c5571d23f5425b397aba723c76ce8d2",
+  "training_seconds": 411.2,
+  "test_metrics": {
+    "accuracy": 0.934,
+    "balanced_accuracy": 0.9309,
+    "macro_f1": 0.8944,
+    "weighted_f1": 0.9349,
+    "per_class": {
+      "HAND": {
+        "precision": 0.9408,
+        "recall": 0.9051,
+        "f1": 0.9226,
+        "support": 158
+      },
+      "LEG": {
+        "precision": 0.949,
+        "recall": 0.949,
+        "f1": 0.949,
+        "support": 294
+      },
+      "HIP": {
+        "precision": 0.9412,
+        "recall": 0.9412,
+        "f1": 0.9412,
+        "support": 34
+      },
+      "SHOULDER": {
+        "precision": 0.65,
+        "recall": 0.9286,
+        "f1": 0.7647,
+        "support": 14
+      }
+    },
+    "confusion_matrix": [
+      [
+        143,
+        15,
+        0,
+        0
+      ],
+      [
+        9,
+        279,
+        1,
+        5
+      ],
+      [
+        0,
+        0,
+        32,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        13
+      ]
+    ],
+    "total_samples": 500
+  },
+  "limitations": [
+    "Research/educational model, not clinically validated.",
+    "FracAtlas has no verified patient identifiers; duplicate clusters are only a proxy."
+  ],
+  "datasets": [
+    "FracAtlas"
+  ],
+  "manifest_sha256": {
+    "train": "96be6940e599ffdf33613ae905d4165ea4eb5fbad51455ec24975a89748177ee",
+    "validation": "fb59f8a42a8dd2bd3ba70f7a07c8830f5700479c5b701db25b8ea8922082c97a",
+    "test": "4958c4c075991f4bcf8121d8190dd743fa4266da2c83dc99cdab0356d755eefe"
+  },
+  "cpu_threads": 2,
+  "python_version": "3.12.14",
+  "torch_version": "2.14.1+cpu",
+  "git_worktree_dirty": true,
+  "best_validation_metric": {
+    "accuracy": 0.9116,
+    "balanced_accuracy": 0.9287,
+    "macro_f1": 0.9074,
+    "weighted_f1": 0.9111,
+    "per_class": {
+      "HAND": {
+        "precision": 0.9067,
+        "recall": 0.8242,
+        "f1": 0.8635,
+        "support": 165
+      },
+      "LEG": {
+        "precision": 0.9164,
+        "recall": 0.9475,
+        "f1": 0.9317,
+        "support": 324
+      },
+      "HIP": {
+        "precision": 1.0,
+        "recall": 0.9429,
+        "f1": 0.9706,
+        "support": 35
+      },
+      "SHOULDER": {
+        "precision": 0.76,
+        "recall": 1.0,
+        "f1": 0.8636,
+        "support": 19
+      }
+    },
+    "confusion_matrix": [
+      [
+        136,
+        28,
+        0,
+        1
+      ],
+      [
+        14,
+        307,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        33,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        19
+      ]
+    ],
+    "total_samples": 543
+  },
+  "provenance_note": "Run completed from a dirty working tree; supplemental manifest/runtime fields recorded after training from the unchanged frozen artifacts. No weights or benchmark metrics changed."
+}

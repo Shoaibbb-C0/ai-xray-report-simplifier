@@ -1,0 +1,130 @@
+{
+  "model_name": "XRayValidatorCNN",
+  "version": "final_v1",
+  "architecture": "XRayValidatorCNN(\n  (features): Sequential(\n    (0): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (2): ReLU(inplace=True)\n    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (4): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (5): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (6): ReLU(inplace=True)\n    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (8): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (9): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (10): ReLU(inplace=True)\n    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n    (12): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n    (13): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)\n    (14): ReLU(inplace=True)\n    (15): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)\n  )\n  (pool): AdaptiveAvgPool2d(output_size=(1, 1))\n  (classifier): Sequential(\n    (0): Flatten(start_dim=1, end_dim=-1)\n    (1): Dropout(p=0.3, inplace=False)\n    (2): Linear(in_features=128, out_features=32, bias=True)\n    (3): ReLU(inplace=True)\n    (4): Linear(in_features=32, out_features=1, bias=True)\n  )\n)",
+  "parameter_count": 101553,
+  "split_version": "final_v1",
+  "datasets": [
+    "FracAtlas",
+    "CIFAR-10",
+    "RetinaMNIST"
+  ],
+  "manifest_sha256": {
+    "train": "3b7b1031969404eec4a792038e01c8ffb3231c7f98334ea062010d31a5fe7b6b",
+    "validation": "31fc73277a34f4f41e3d09d3fecfbedcfaea92c576823060095aca1a58e3328b",
+    "test": "53ca6bf5d5cc09c667f26e86205d782d08a6653a9554e1405f2a9178bbff41f8"
+  },
+  "cpu_threads": 2,
+  "python_version": "3.12.14",
+  "torch_version": "2.14.1+cpu",
+  "git_worktree_dirty": true,
+  "best_validation_metric": {
+    "accuracy": 0.9979,
+    "balanced_accuracy": 0.9971,
+    "precision": 0.9967,
+    "recall_sensitivity": 1.0,
+    "specificity": 0.9943,
+    "f1": 0.9984,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "true_positives": 610,
+    "true_negatives": 347,
+    "false_positives": 2,
+    "false_negatives": 0,
+    "confusion_matrix": [
+      [
+        347,
+        2
+      ],
+      [
+        0,
+        610
+      ]
+    ],
+    "threshold": 0.36999999999999994,
+    "total_samples": 959
+  },
+  "input_shape": [
+    1,
+    128,
+    128
+  ],
+  "normalization": {
+    "mean": 0.5,
+    "std": 0.5
+  },
+  "augmentation": "Both labels: resize 32px then 128px, probability 0.5",
+  "seed": 42,
+  "training_date": "2026-10-20T20:04:32.729252+00:00",
+  "hardware": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+  "device": "cpu",
+  "optimizer": "AdamW(lr=.001,weight_decay=.0001)",
+  "loss": "train-weighted BCEWithLogitsLoss",
+  "policy": {
+    "decision_threshold": 0.37,
+    "lower_bound": 0.27,
+    "upper_bound": 0.47,
+    "selection_split": "validation",
+    "validation_metrics": {
+      "accuracy": 0.9979,
+      "balanced_accuracy": 0.9971,
+      "precision": 0.9967,
+      "recall_sensitivity": 1.0,
+      "specificity": 0.9943,
+      "f1": 0.9984,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "true_positives": 610,
+      "true_negatives": 347,
+      "false_positives": 2,
+      "false_negatives": 0,
+      "confusion_matrix": [
+        [
+          347,
+          2
+        ],
+        [
+          0,
+          610
+        ]
+      ],
+      "threshold": 0.36999999999999994,
+      "total_samples": 959
+    },
+    "uncertainty_method": "prespecified +/-0.10 probability rejection margin"
+  },
+  "checkpoint_file": "best_validator.pt",
+  "sha256": "8cf44462ba45a1d1d6f85a8992baf29d389c5d363d620c0bf7402c9527481d84",
+  "git_commit": "89b28c078c4e8a6d365fe6549ade06832eba3c45",
+  "training_seconds": 510.3,
+  "test_metrics": {
+    "accuracy": 0.9927,
+    "balanced_accuracy": 0.9926,
+    "precision": 0.9857,
+    "recall_sensitivity": 1.0,
+    "specificity": 0.9852,
+    "f1": 0.9928,
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "true_positives": 551,
+    "true_negatives": 533,
+    "false_positives": 8,
+    "false_negatives": 0,
+    "confusion_matrix": [
+      [
+        533,
+        8
+      ],
+      [
+        0,
+        551
+      ]
+    ],
+    "threshold": 0.37,
+    "total_samples": 1092
+  },
+  "limitations": [
+    "Research/educational model, not clinically validated.",
+    "FracAtlas has no verified patient identifiers; duplicate clusters are only a proxy."
+  ]
+}

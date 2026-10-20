@@ -2,13 +2,14 @@
 from io import BytesIO
 import warnings
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageFile, ImageOps, UnidentifiedImageError
 from starlette.concurrency import run_in_threadpool
 from backend.app.services.ml_service import ml_service, ModelBusyError, ModelNotLoadedError
 
 router = APIRouter()
 MAX_BYTES = 10 * 1024 * 1024
 MAX_PIXELS = 16_000_000
+ImageFile.LOAD_TRUNCATED_IMAGES = False
 
 
 def decode_image(data):
@@ -26,7 +27,7 @@ def decode_image(data):
                 source.verify()
             with Image.open(BytesIO(data)) as source:
                 source.load()
-                return source.convert("RGB")
+                return ImageOps.exif_transpose(source).convert("RGB")
     except HTTPException:
         raise
     except (UnidentifiedImageError, OSError, ValueError, SyntaxError, Image.DecompressionBombError, Image.DecompressionBombWarning):

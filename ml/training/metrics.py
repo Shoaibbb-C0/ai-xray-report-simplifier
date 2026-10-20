@@ -128,9 +128,13 @@ def _compute_roc_auc(y_true: np.ndarray, y_score: np.ndarray) -> Optional[float]
         return None
 
     # Rank score
-    order = np.argsort(y_score)
-    ranks = np.empty_like(order)
-    ranks[order] = np.arange(len(y_score))
+    order = np.argsort(y_score, kind="stable")
+    ranks = np.empty(len(order), dtype=float)
+    sorted_scores = y_score[order]
+    starts = np.r_[0, np.flatnonzero(np.diff(sorted_scores)) + 1]
+    ends = np.r_[starts[1:], len(order)]
+    for start, end in zip(starts, ends):
+        ranks[order[start:end]] = (start + end - 1) / 2.0
     sum_ranks_pos = np.sum(ranks[y_true == 1])
     u_stat = sum_ranks_pos - (n_pos * (n_pos - 1)) / 2.0
     return float(u_stat / (n_pos * n_neg))

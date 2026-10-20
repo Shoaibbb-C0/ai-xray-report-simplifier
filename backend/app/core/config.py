@@ -13,8 +13,8 @@ class Settings:
     API_V1_STR: str = "/api/v1"
     
     # Server host and port configuration
-    HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", "8000"))
+    HOST: str = os.getenv("HOST", "127.0.0.1")
+    PORT: int = int(os.getenv("PORT", "8001"))
     
     # Allowed CORS origins for frontend integration
     CORS_ORIGINS: List[str] = [origin.strip() for origin in os.getenv(

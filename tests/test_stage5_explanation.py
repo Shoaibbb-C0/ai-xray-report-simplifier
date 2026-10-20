@@ -19,6 +19,7 @@ from ml.explanation.engine import VisualExplanationEngine
 from ml.explanation.visual_mapper import resolve_illustration
 from ml.explanation.glossary import get_glossary
 from ml.explanation.translations import TRANSLATION_REGISTRY, t
+from ml.inference.fracture_classifier import DEFAULT_CKPT
 
 
 @pytest.fixture
@@ -122,7 +123,8 @@ def test_non_xray_validation_rejection(engine, sample_non_xray_cascade):
 
     assert res.analysis_status == AnalysisStatus.NON_XRAY
     assert res.finding.state == FindingState.NOT_ANALYZED
-    assert "does not meet medical radiograph criteria" in res.summary
+    assert "model did not accept" in res.summary
+    assert res.translation_keys["purpose_key"] == "validation.purpose"
     assert res.attention.available is False
     assert res.visual.illustration_id == "common_non_xray"
     assert Path(res.visual.illustration_path).exists()
@@ -133,9 +135,11 @@ def test_unknown_body_part_explanation(engine, sample_unknown_body_part_cascade)
     res: ExplanationResult = engine.explain(sample_unknown_body_part_cascade)
 
     assert res.analysis_status == AnalysisStatus.BODY_PART_UNKNOWN
+    assert "could not confidently" in res.summary
+    assert "strictly calibrated" not in res.what_the_result_means
     assert res.body_part.id == BodyPartId.UNKNOWN
     assert res.finding.state == FindingState.UNSUPPORTED
-    assert "outside the currently supported regions" in res.summary
+    assert "outside the currently supported regions" not in res.summary
     assert res.attention.available is False
 
 
@@ -220,6 +224,34 @@ def test_multilingual_translation_keys(engine, sample_hand_fracture_cascade):
         assert res.language == lang
 
 
+def test_critical_translations_do_not_fall_back_to_english():
+    for language in ("hi", "mr"):
+        assert set(TRANSLATION_REGISTRY["en"]).issubset(TRANSLATION_REGISTRY[language])
+
+
+def test_explanation_respects_explicit_validation_policy(engine, sample_hand_fracture_cascade):
+    sample_hand_fracture_cascade["xray_validation"] = {"result":"x_ray", "confidence":.55, "probability":.55}
+    result = engine.explain(sample_hand_fracture_cascade)
+    assert result.analysis_status == AnalysisStatus.VALID_XRAY_FRACTURE_SUSPECTED
+
+
+@pytest.mark.parametrize("source_size,overlay_size", [((64,64),(64,64)), ((400,800),(64,128))])
+def test_attention_aligns_with_original_image_without_model_padding(engine, monkeypatch, source_size, overlay_size):
+    import base64
+    import io
+    import numpy as np
+    from PIL import Image
+    class Attention:
+        def generate_heatmap(self, tensor):
+            return np.ones((128,128), dtype=np.float32)
+    engine.attention_size = (128,128)
+    monkeypatch.setattr(engine, "_get_gradcam", lambda: Attention())
+    with Image.new("RGB", source_size) as source:
+        encoded = engine.generate_attention_overlay(source)
+    with Image.open(io.BytesIO(base64.b64decode(encoded.split(",",1)[1]))) as overlay:
+        assert overlay.size == overlay_size
+
+
 def test_safety_regression_forbidden_medical_claims(engine):
     """Regression test: Ensure patient-facing text NEVER contains dangerous or overconfident claims."""
     forbidden_affirmative_phrases = [
@@ -230,6 +262,7 @@ def test_safety_regression_forbidden_medical_claims(engine):
         "your exact fracture location",
         "this is the exact fracture location",
         "clinically validated",
+        "strictly calibrated",
         "100% accurate",
         "guaranteed",
         "definitive diagnosis",
@@ -251,12 +284,18 @@ def test_safety_regression_forbidden_medical_claims(engine):
 
 
 @pytest.mark.skipif(
-    not Path("ml/saved_models/stage4/fracture_classifier/best_fracture_classifier.pt").is_file(),
+    not DEFAULT_CKPT.is_file(),
     reason="Trained fracture checkpoint is missing; real Grad-CAM is blocked",
 )
 def test_gradcam_execution_with_real_xray(engine, sample_hand_fracture_cascade):
     """Verify Grad-CAM executes and generates transparent thermal overlay for positive prediction."""
-    sample_img = Path("ml/learning/sample_image.png")
+    from ml.datasets.registry import RAW_DATASETS_DIR
+    from ml.datasets.adapters.fracatlas import FracAtlasAdapter
+    rows = FracAtlasAdapter(RAW_DATASETS_DIR / "fracatlas").load_manifest()
+    sample = next((row for row in rows if row.body_part == "hand" and row.is_abnormal), None)
+    if sample is None:
+        pytest.skip("A local FracAtlas hand radiograph is required")
+    sample_img = Path(sample.image_path)
     if not sample_img.is_file():
         pytest.skip("Local sample radiograph is missing")
     if sample_img.exists():
