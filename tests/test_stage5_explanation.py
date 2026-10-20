@@ -250,9 +250,15 @@ def test_safety_regression_forbidden_medical_claims(engine):
             assert phrase not in all_text, f"Forbidden affirmative phrase '{phrase}' found in patient explanation!"
 
 
+@pytest.mark.skipif(
+    not Path("ml/saved_models/stage4/fracture_classifier/best_fracture_classifier.pt").is_file(),
+    reason="Trained fracture checkpoint is missing; real Grad-CAM is blocked",
+)
 def test_gradcam_execution_with_real_xray(engine, sample_hand_fracture_cascade):
     """Verify Grad-CAM executes and generates transparent thermal overlay for positive prediction."""
     sample_img = Path("ml/learning/sample_image.png")
+    if not sample_img.is_file():
+        pytest.skip("Local sample radiograph is missing")
     if sample_img.exists():
         res = engine.explain(sample_hand_fracture_cascade, image_input=sample_img, generate_attention=True)
         assert res.attention.available is True

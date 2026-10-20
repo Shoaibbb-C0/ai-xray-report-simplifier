@@ -4,8 +4,16 @@ from pathlib import Path
 from PIL import Image
 import pytest
 
-from ml.inference.fracture_classifier import FractureInferenceEngine
+from ml.inference.fracture_classifier import FractureInferenceEngine, DEFAULT_CKPT
+from ml.inference.stage3_pipeline import VALIDATOR_CKPT, BODY_PART_CKPT
 from ml.inference.stage4_pipeline import Stage4InferencePipeline
+
+
+@pytest.fixture
+def trained_checkpoints():
+    for path in (VALIDATOR_CKPT, BODY_PART_CKPT, DEFAULT_CKPT):
+        if not path.is_file():
+            pytest.skip(f"Trained checkpoint is missing: {path.name}; real inference is blocked")
 
 
 @pytest.fixture
@@ -34,6 +42,7 @@ def real_xray_image() -> Path:
     return frac_p
 
 
+@pytest.mark.skipif(not DEFAULT_CKPT.is_file(), reason="Trained fracture checkpoint is missing; real inference is blocked")
 def test_fracture_inference_engine_schema(sample_white_image: Path):
     """Verify FractureInferenceEngine outputs well-formed structured dictionary."""
     engine = FractureInferenceEngine(device="cpu")
@@ -49,7 +58,7 @@ def test_fracture_inference_engine_schema(sample_white_image: Path):
     assert "uncertainty_band" in res["thresholds"]
 
 
-def test_stage4_pipeline_output_schema(sample_orange_image: Path):
+def test_stage4_pipeline_output_schema(sample_orange_image: Path, trained_checkpoints):
     """Verify Stage4InferencePipeline output schema matches specification."""
     pipeline = Stage4InferencePipeline(device="cpu")
     result = pipeline.predict(sample_orange_image)
@@ -66,7 +75,7 @@ def test_stage4_pipeline_output_schema(sample_orange_image: Path):
     assert result["models"]["fracture"] == "FractureClassifierCNN"
 
 
-def test_stage4_pipeline_non_xray_gating(sample_orange_image: Path):
+def test_stage4_pipeline_non_xray_gating(sample_orange_image: Path, trained_checkpoints):
     """Verify Gate 1: Non-radiograph input is rejected and does not reach abnormality classifier."""
     pipeline = Stage4InferencePipeline(device="cpu")
     result = pipeline.predict(sample_orange_image)
@@ -79,7 +88,7 @@ def test_stage4_pipeline_non_xray_gating(sample_orange_image: Path):
     assert "rejection_reason" in result
 
 
-def test_stage4_pipeline_real_xray_routing(real_xray_image: Path):
+def test_stage4_pipeline_real_xray_routing(real_xray_image: Path, trained_checkpoints):
     """Verify Gate 2 & 3: Real radiograph routes through body part and abnormality classification."""
     pipeline = Stage4InferencePipeline(device="cpu")
     result = pipeline.predict(real_xray_image)
@@ -111,7 +120,7 @@ def test_stage4_pipeline_metadata():
     assert "uncertainty_band" in models["fracture"]
 
 
-def test_medical_language_guardrails(real_xray_image: Path):
+def test_medical_language_guardrails(real_xray_image: Path, trained_checkpoints):
     """Verify explanatory text conforms to patient reassurance guidelines without diagnostic diagnosis."""
     pipeline = Stage4InferencePipeline(device="cpu")
     result = pipeline.predict(real_xray_image)

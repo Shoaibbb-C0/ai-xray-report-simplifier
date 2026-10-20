@@ -162,10 +162,15 @@ pytest -v
 Stage 6 adds email/password accounts, protected `/map` and `/history` routes,
 private storage policies and reusable Stage 5 JSON persistence contracts.
 See [Stage 6 setup, schema, security and test report](docs/stage6-patient-history.md).
-Configure the public Supabase URL/key in ignored `frontend/.env.local`, apply
-the migration and configure the Auth callback before using patient accounts.
+Configure the public Supabase URL/key in ignored `frontend/.env.local` and
+configure the Auth callback before using patient accounts. The existing
+`xray-simplifier` project is already migrated; only apply migrations to a fresh
+project after checking its migration history.
 No upload-analysis-persistence flow is enabled yet. Run frontend checks with
 `npm test` and `npm run build` from `frontend/`.
+
+See the [new-PC restoration and Stage 6 verification report](docs/new-pc-stage6-verification.md)
+for the current environment, missing checkpoints, explicit test skips and live-auth blockers.
 
 
 

@@ -11,6 +11,8 @@ from ml.datasets.torch_dataset import NormalizedXRayDataset, create_xray_dataloa
 def fracatlas_samples():
     """Module-level fixture providing loaded FracAtlas samples."""
     adapter = FracAtlasAdapter(RAW_DATASETS_DIR / "fracatlas")
+    if not adapter.is_available():
+        pytest.skip("Local FracAtlas dataset is missing; copy it to ml/datasets/raw/fracatlas")
     samples = adapter.load_manifest()
     assert len(samples) > 0
     return samples

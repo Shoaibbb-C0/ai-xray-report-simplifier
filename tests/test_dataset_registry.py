@@ -1,5 +1,6 @@
 """Tests for Dataset Registry and availability tracking."""
 
+from dataclasses import replace
 from ml.datasets.registry import DATASET_REGISTRY, get_dataset_metadata, list_datasets
 
 
@@ -20,25 +21,30 @@ def test_registry_metadata_contracts():
         assert meta.citation
 
 
-def test_availability_reflects_actual_filesystem_state():
+def test_availability_reflects_actual_filesystem_state(tmp_path):
     """Verify live availability flags reflect local filesystem."""
-    # FracAtlas was downloaded and is available
-    fracatlas_meta = get_dataset_metadata("fracatlas")
-    assert fracatlas_meta is not None
+    # Exercise both states without requiring a previous machine's ignored data.
+    fracatlas_meta = replace(get_dataset_metadata("fracatlas"), raw_dir=tmp_path / "fracatlas")
+    assert fracatlas_meta.availability_state == "not_downloaded"
+    fracatlas_meta.raw_dir.mkdir()
+    (fracatlas_meta.raw_dir / "dataset.csv").touch()
+    assert fracatlas_meta.availability_state == "not_downloaded"
+    for folder in ("Fractured", "Non_fractured"):
+        (fracatlas_meta.raw_dir / "images" / folder).mkdir(parents=True)
     assert fracatlas_meta.availability_state == "available"
 
     # MURA has not been downloaded yet
-    mura_meta = get_dataset_metadata("mura")
+    mura_meta = replace(get_dataset_metadata("mura"), raw_dir=tmp_path / "mura")
     assert mura_meta is not None
     assert mura_meta.availability_state == "not_downloaded"
 
     # ChestX-ray14 has not been downloaded yet
-    chest_meta = get_dataset_metadata("chestxray14")
+    chest_meta = replace(get_dataset_metadata("chestxray14"), raw_dir=tmp_path / "chestxray14")
     assert chest_meta is not None
     assert chest_meta.availability_state == "not_downloaded"
 
     # VinDr-Spine is restricted-access PhysioNet data
-    spine_meta = get_dataset_metadata("vindr_spine")
+    spine_meta = replace(get_dataset_metadata("vindr_spine"), raw_dir=tmp_path / "vindr_spine")
     assert spine_meta is not None
     assert spine_meta.availability_state == "restricted"
 

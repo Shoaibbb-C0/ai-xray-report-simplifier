@@ -14,6 +14,8 @@ from ml.datasets.registry import RAW_DATASETS_DIR
 def test_fracatlas_adapter_on_real_data():
     """Verify FracAtlas adapter parses the real downloaded dataset."""
     adapter = FracAtlasAdapter(RAW_DATASETS_DIR / "fracatlas")
+    if not adapter.is_available():
+        pytest.skip("Local FracAtlas dataset is missing; copy it to ml/datasets/raw/fracatlas")
     assert adapter.is_available()
 
     samples = adapter.load_manifest()

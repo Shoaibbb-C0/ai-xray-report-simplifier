@@ -4,9 +4,13 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-from ml.inference.stage3_pipeline import Stage3InferencePipeline
+from ml.inference.stage3_pipeline import Stage3InferencePipeline, VALIDATOR_CKPT, BODY_PART_CKPT
 
 
+@pytest.mark.skipif(
+    not all(path.is_file() for path in (VALIDATOR_CKPT, BODY_PART_CKPT)),
+    reason="Trained Stage 3 checkpoints are missing; real inference is blocked",
+)
 def test_stage3_pipeline_execution(tmp_path: Path):
     pipeline = Stage3InferencePipeline(device="cpu")
 
